@@ -1,10 +1,13 @@
 import 'package:budget_manager/hive/transaction_box_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'expenditureDialog.dart';
+import 'incomeDialog.dart';
+import 'visualizationsPage.dart';
 void main() async {
   await Hive.initFlutter(); // init hive, WidgetsFlutterBinding.ensureInitialized() called here already
-  // test push for change
+
   // register the adapters
   Hive.registerAdapter(ExpenseAdapter());
   Hive.registerAdapter(ScheduledExpenseAdapter());
@@ -29,7 +32,7 @@ void main() async {
   print(box.values); // we can get lists with toList or iterate through values with a for loop as well
 
   for(var income in box.values){
-      print('category: ${income.category}, amount: ${income.amount}, date: ${income.date}, note: ${income.note}');
+    print('category: ${income.category}, amount: ${income.amount}, date: ${income.date}, note: ${income.note}');
   }
 
   runApp(const MyApp());
@@ -47,28 +50,24 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Budget Tracker', expendCategories: ['Food & Dining', 'Auto & Transport','Leisure', 'Other'], incomeCategories: ['Job', 'Ebay', 'Gift']),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.expendCategories, required this.incomeCategories});
 
   final String title;
+
+  final List<String> expendCategories;
+  final List<String> incomeCategories;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,24 +76,45 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+      bottomNavigationBar: ButtonBar(
+        alignment: MainAxisAlignment.center,
+        children: [
+          TextButton( onPressed: () {
+            const visualizationsPage();
+          },
+              child: const Text('Finance Visualization'))
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: Column(
+        children: [
+          Center(
+            child: ButtonBar(
+              alignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return IncomeDialog(incomeCategories: widget.incomeCategories);
+                      },
+                    );
+                  },
+                  child: const Text('Income'),
+                ),ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ExpenditureDialog(expendCategories: widget.expendCategories);
+                      },
+                    );
+                  },
+                  child: const Text('Expenditure'),
+                )],
+            ),
+          )
+        ],
       ),
     );
   }
