@@ -1,0 +1,1 @@
+// TODO: create operations file were we make custom functions to do things for our database (retrieve certain info etc)
