@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   await Hive.initFlutter(); // init hive, WidgetsFlutterBinding.ensureInitialized() called here already
-
+  // test push for change
   // register the adapters
   Hive.registerAdapter(ExpenseAdapter());
   Hive.registerAdapter(ScheduledExpenseAdapter());
