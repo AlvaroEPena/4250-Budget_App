@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   incomeDialogTests();
+  historyTests();
   expenditureDialogTests();
   visualizationsPageTests();
 
@@ -50,6 +51,22 @@ incomeDialogTests() {
 
 
 });
+}
+
+historyTests() {
+  testWidgets('History', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    final incomeButtonFind = find.text('Income');
+    expect(incomeButtonFind, findsOneWidget);
+    await tester.tap(incomeButtonFind);
+    await tester.pump();
+    expect(find.byType(IncomeDialog), findsOneWidget);
+
+    //Enter HistoryButton
+    final historyButtonfind = find.byKey(const Key('HistoryButton'));
+    await tester.tap(historyButtonfind);
+
+  });
 }
 
 expenditureDialogTests() {

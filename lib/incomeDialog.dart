@@ -29,6 +29,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
           Column(
             children: [
               IconButton(
+                key: const Key('HistoryButton'),
                 onPressed: () {
                   Navigator.push(
                     context,
