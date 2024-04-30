@@ -57,6 +57,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
             Row(children: [
               Expanded(
                 child: TextFormField(
+                  key:const Key('amountField'),
                   onChanged: (value) {
                     setState(() {
                       amount = value;
@@ -84,6 +85,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
             Column(
               children: widget.expendCategories.map((category) {
                 return CheckboxListTile(
+                  key: Key(category),
                   title: Text(category),
                   value: selectedCategory == category,
                   onChanged: (bool? value) {
@@ -99,6 +101,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    key: const Key('addCategoryField'),
                     onChanged: (value) {
                       setState(() {
                         newCategory = value;
@@ -110,6 +113,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                   ),
                 ),
                 ElevatedButton(
+                  key: const Key('addCategoryButton'),
                   onPressed: () {
                     if (newCategory.isNotEmpty) {
                       setState(() {
@@ -123,6 +127,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               ],
             ),
             TextFormField(
+              key: const Key('notesTextField'),
               onChanged: (value) {
                 setState(() {
                   notes = value;
