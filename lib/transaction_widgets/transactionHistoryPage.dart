@@ -46,15 +46,49 @@ class TransactionHistoryPage extends StatelessWidget {
     }
   }
 
+  // Function to calculate the total amount asynchronously (in case of big db then it will not freeze and perhaps cache the results)
+  Future<double> calculateTotalAmount(Box<dynamic> transactionBox) async {
+    double totalAmount = 0;
+    for (var i = 0; i < transactionBox.length; i++) {
+      final transaction = await transactionBox.getAt(i); // grab transaction
+      totalAmount += transaction.amount; // adding the amount
+    }
+    return totalAmount;
+  }
+
   Widget buildTransactionList() {
     final Box<dynamic> selectedTransactionBox = getSelectedTransactionBox();
 
-    return ListView.builder(
-      itemCount: selectedTransactionBox.length,
-      itemBuilder: (context, index) {
-        return createTransactionCard(selectedTransactionBox.getAt(index));
+    return FutureBuilder(
+      future: calculateTotalAmount(selectedTransactionBox),
+      initialData: 0.0,
+      builder: (context, AsyncSnapshot<double> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator(); // Show loading indicator while calculating
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}'); // if any errors occurred during calculation
+        } else {
+          final double totalAmount = snapshot.data ?? 0; // if the data is null
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: selectedTransactionBox.length,
+                  itemBuilder: (context, index) {
+                    final transaction = selectedTransactionBox.getAt(index);
+                    return createTransactionCard(transaction);
+                  },
+                ),
+              ),
+              ListTile(
+                title: Text('Total Amount: $totalAmount'),
+              ),
+            ],
+          );
+        }
       },
     );
   }
 }
+
 
