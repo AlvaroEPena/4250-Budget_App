@@ -82,37 +82,39 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Finance Visualization'))
         ],
       ),
-      body: Column(
-        children: [
-          Center(
-            child: ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return IncomeDialog(incomeCategories: widget.incomeCategories);
-                      },
-                    );
-                  },
-                  child: const Text('Income'),
-                ),ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ExpenditureDialog(expendCategories: widget.expendCategories);
-                      },
-                    );
-                  },
-                  child: const Text('Expenditure'),
-                )],
-            ),
-          )
-        ],
-      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Center(
+              child: ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return IncomeDialog(incomeCategories: widget.incomeCategories);
+                        },
+                      );
+                    },
+                    child: const Text('Income'),
+                  ),ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ExpenditureDialog(expendCategories: widget.expendCategories);
+                        },
+                      );
+                    },
+                    child: const Text('Expenditure'),
+                  )],
+              ),
+            )
+          ],
+        ),
+      )
     );
   }
 }

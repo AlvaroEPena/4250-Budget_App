@@ -22,7 +22,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text('Income'),
-      content: Padding(
+      content: SingleChildScrollView( child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -30,6 +30,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
             Row(children: [
               Expanded(
                 child: TextFormField(
+                  key: const Key('amountField'),
                   onChanged: (value) {
                     setState(() {
                       amount = value;
@@ -57,6 +58,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
             Column(
               children: widget.incomeCategories.map((category) {
                 return CheckboxListTile(
+                  key: Key(category),
                   title: Text(category),
                   value: selectedCategory == category,
                   onChanged: (bool? value) {
@@ -72,6 +74,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    key: const Key('addCategoryField'),
                     onChanged: (value) {
                       setState(() {
                         newCategory = value;
@@ -83,6 +86,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
                   ),
                 ),
                 ElevatedButton(
+                  key: const Key('addCategoryButton'),
                   onPressed: () {
                     if (newCategory.isNotEmpty) {
                       setState(() {
@@ -96,6 +100,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
               ],
             ),
           TextFormField(
+            key: const Key('notesTextField'),
             onChanged: (value) {
               setState(() {
                 notes = value;
@@ -107,6 +112,6 @@ class _IncomeDialogState extends State<IncomeDialog> {
           )],
         ),
       ),
-    );
+    ));
   }
 }

@@ -23,7 +23,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text('Expenditure'),
-      content: Padding(
+      content: SingleChildScrollView( child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -31,6 +31,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
             Row(children: [
               Expanded(
                 child: TextFormField(
+                  key:const Key('amountField'),
                   onChanged: (value) {
                     setState(() {
                       amount = value;
@@ -46,6 +47,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                 ),
               ),
               ElevatedButton(
+                key: const Key('submitExpenditure'),
                 onPressed: () {
                   if (amount.isNotEmpty) {
                     saveExpenseLog(double.parse(amount), DateTime.now(), notes, selectedCategory, recurring);
@@ -59,6 +61,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               children: widget.expendCategories.map((category) {
                 return CheckboxListTile(
                   title: Text(category),
+                  key: Key(category),
                   value: selectedCategory == category,
                   onChanged: (bool? value) {
                     setState(() {
@@ -73,6 +76,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    key: const Key('addCategoryField'),
                     onChanged: (value) {
                       setState(() {
                         newCategory = value;
@@ -84,6 +88,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                   ),
                 ),
                 ElevatedButton(
+                  key: const Key('addCategoryButton'),
                   onPressed: () {
                     if (newCategory.isNotEmpty) {
                       setState(() {
@@ -97,6 +102,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               ],
             ),
             TextFormField(
+              key: const Key('notesTextField'),
               onChanged: (value) {
                 setState(() {
                   notes = value;
@@ -108,6 +114,6 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
             )],
         ),
       ),
-    );
+    ));
   }
 }
