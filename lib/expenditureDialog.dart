@@ -1,4 +1,5 @@
 import 'package:budget_manager/hive/transaction_box_operations.dart';
+import 'package:budget_manager/transaction_widgets/transactionHistoryPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,8 +23,33 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: const Text('Expenditure'),
-      content: SingleChildScrollView( child: Padding(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns children to the start and end of the row
+        children: [
+          const Text('Expenditures'),
+          Column(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TransactionHistoryPage(transactionType: 'expenses'),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.history),
+                iconSize: 30,
+              ),
+              const Text(
+                'History', // Caption for the button
+                style: TextStyle(fontSize: 12),
+              ),
+            ],
+          ),
+        ],
+      ),
+      content: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -31,7 +57,6 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
             Row(children: [
               Expanded(
                 child: TextFormField(
-                  key:const Key('amountField'),
                   onChanged: (value) {
                     setState(() {
                       amount = value;
@@ -47,7 +72,6 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                 ),
               ),
               ElevatedButton(
-                key: const Key('submitExpenditure'),
                 onPressed: () {
                   if (amount.isNotEmpty) {
                     saveExpenseLog(double.parse(amount), DateTime.now(), notes, selectedCategory, recurring);
@@ -61,7 +85,6 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               children: widget.expendCategories.map((category) {
                 return CheckboxListTile(
                   title: Text(category),
-                  key: Key(category),
                   value: selectedCategory == category,
                   onChanged: (bool? value) {
                     setState(() {
@@ -76,7 +99,6 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               children: [
                 Expanded(
                   child: TextFormField(
-                    key: const Key('addCategoryField'),
                     onChanged: (value) {
                       setState(() {
                         newCategory = value;
@@ -88,7 +110,6 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                   ),
                 ),
                 ElevatedButton(
-                  key: const Key('addCategoryButton'),
                   onPressed: () {
                     if (newCategory.isNotEmpty) {
                       setState(() {
@@ -102,7 +123,6 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               ],
             ),
             TextFormField(
-              key: const Key('notesTextField'),
               onChanged: (value) {
                 setState(() {
                   notes = value;
@@ -114,6 +134,6 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
             )],
         ),
       ),
-    ));
+    );
   }
 }
