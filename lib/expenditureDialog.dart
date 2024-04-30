@@ -1,4 +1,5 @@
 import 'package:budget_manager/hive/transaction_box_operations.dart';
+import 'package:budget_manager/transaction_widgets/transactionHistoryPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,7 +23,32 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: const Text('Expenditure'),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns children to the start and end of the row
+        children: [
+          const Text('Expenditures'),
+          Column(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TransactionHistoryPage(transactionType: 'expenses'),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.history),
+                iconSize: 30,
+              ),
+              const Text(
+                'History', // Caption for the button
+                style: TextStyle(fontSize: 12),
+              ),
+            ],
+          ),
+        ],
+      ),
       content: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
