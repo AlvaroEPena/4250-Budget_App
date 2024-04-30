@@ -26,7 +26,7 @@ class Expense extends Transaction{
   @HiveField(4)
   bool recurring;
 
-  Expense(super.category, super.amount, super.date, super.note, this.recurring);
+  Expense(double amount, DateTime date, String note, {String category = 'Expense', required this.recurring}) : super(category, amount, date, note); // set default category
 }
 
 // scheduled expense, bills etc
@@ -35,12 +35,12 @@ class ScheduledExpense extends Transaction{
   @HiveField(4)
   DateTime dueDate;
 
-  ScheduledExpense(super.category, super.amount, super.date, super.note, this.dueDate);
+  ScheduledExpense(double amount, DateTime date, String note, {String category = 'ScheduledExpense', required this.dueDate}) : super(category, amount, date, note); // set default category
 }
 
 // income
 @HiveType(typeId: 3)
 class Income extends Transaction{
-  Income(super.category, super.amount, super.date, super.note);
+  Income(double amount, DateTime date, String note, {String category = 'Income'}) : super(category, amount, date, note); // set default category
 }
 

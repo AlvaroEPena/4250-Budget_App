@@ -5,7 +5,6 @@ part of 'transaction_box_model.dart';
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
-// deleted transaction adapter since its abstract...
 
 class ExpenseAdapter extends TypeAdapter<Expense> {
   @override
@@ -18,11 +17,11 @@ class ExpenseAdapter extends TypeAdapter<Expense> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Expense(
-      fields[0] as String,
       fields[1] as double,
       fields[2] as DateTime,
       fields[3] as String,
-      fields[4] as bool,
+      category: fields[0] as String,
+      recurring: fields[4] as bool,
     );
   }
 
@@ -64,11 +63,11 @@ class ScheduledExpenseAdapter extends TypeAdapter<ScheduledExpense> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ScheduledExpense(
-      fields[0] as String,
       fields[1] as double,
       fields[2] as DateTime,
       fields[3] as String,
-      fields[4] as DateTime,
+      category: fields[0] as String,
+      dueDate: fields[4] as DateTime,
     );
   }
 
@@ -110,10 +109,10 @@ class IncomeAdapter extends TypeAdapter<Income> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Income(
-      fields[0] as String,
       fields[1] as double,
       fields[2] as DateTime,
       fields[3] as String,
+      category: fields[0] as String,
     );
   }
 

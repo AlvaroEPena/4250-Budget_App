@@ -1,9 +1,11 @@
+import 'package:budget_manager/hive/transaction_box_operations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class IncomeDialog extends StatefulWidget {
   final List<String> incomeCategories;
 
-  const IncomeDialog({super.key, required this.incomeCategories});
+  IncomeDialog({super.key, required this.incomeCategories});
 
   @override
   _IncomeDialogState createState() => _IncomeDialogState();
@@ -36,14 +38,17 @@ class _IncomeDialogState extends State<IncomeDialog> {
                   decoration: const InputDecoration(
                     labelText: 'Enter Amount',
                   ),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true), // Allows decimal numbers
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))
+                    ],
                 ),
               ),
               ElevatedButton(
                 onPressed: () {
                   if (amount.isNotEmpty) {
-                    setState(() {
-                      // ADD AMOUNT, NOTE, CATEGORY, DATE TO DATABASE
-                    });
+                    saveIncomeLog(double.parse(amount), DateTime.now(), notes, selectedCategory);
+                    Navigator.pop(context); // pop if not empty amount or else keep form there
                   }
                 },
                 child: const Text('Add'),

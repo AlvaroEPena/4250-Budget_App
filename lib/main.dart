@@ -1,5 +1,4 @@
 import 'package:budget_manager/hive/transaction_box_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'expenditureDialog.dart';
@@ -12,30 +11,28 @@ void main() async {
   Hive.registerAdapter(ExpenseAdapter());
   Hive.registerAdapter(ScheduledExpenseAdapter());
   Hive.registerAdapter(IncomeAdapter());
-  await Hive.deleteBoxFromDisk('income'); // to reset database if we do any changes run this once on the specified db and then comment out again.
+  // to reset database if we do any changes run this once on the specified db and then comment out again.
   // its being deleted and created each run right now for demonstration
+  //await Hive.deleteBoxFromDisk('income');
+  //await Hive.deleteBoxFromDisk('expenses');
+  //await Hive.deleteBoxFromDisk('scheduled_expenses');
 
   // open each box at the start of the program. boxes are created once then stored to be opened at each startup the same way
   await Hive.openBox<Expense>('expenses');
   await Hive.openBox<ScheduledExpense>('scheduled_expenses');
   await Hive.openBox<Income>('income');
 
-  // example:
-  final box = Hive.box<Income>('income'); // can open already opened box (that was opened in main) anywhere else in the code with .box
-  final exampleIncome = Income("Job", 2500, DateTime.now(), "monthly income");
+  runApp(const MyApp());
 
-  box.add(exampleIncome); // add object to add to next available spot, no key needed and is auto incremented index 0..1..2 etc
-  // since our objects extend with hive object we can also do exampleIncome.save(). Each object is saved only once so we can apply changes like that if you change
-  // an object member variable then call .save()
-  // box.put("key",exampleIncome); using put we can specify our own keys too. but since we can only store each object uniquely running this wont work.
-
-  print(box.values); // we can get lists with toList or iterate through values with a for loop as well
-
+  final box = Hive.box<Income>('income');
+  final box2 = Hive.box<Expense>('expenses');
   for(var income in box.values){
     print('category: ${income.category}, amount: ${income.amount}, date: ${income.date}, note: ${income.note}');
   }
 
-  runApp(const MyApp());
+  for(var expense in box2.values){
+    print('category: ${expense.category}, amount: ${expense.amount}, date: ${expense.date}, note: ${expense.note}, recurring: ${expense.recurring}');
+  }
 }
 
 class MyApp extends StatelessWidget {
