@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: MyHomePage(title: 'Budget Tracker', expendCategories: ['Food & Dining', 'Auto & Transport','Leisure', 'Other'], incomeCategories: ['Job', 'Ebay', 'Gift']),
+      home: const MyHomePage(title: 'Budget Tracker', expendCategories: ['Food & Dining', 'Auto & Transport','Leisure', 'Other'], incomeCategories: ['Job', 'Ebay', 'Gift']),
     );
   }
 }
@@ -77,8 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
         alignment: MainAxisAlignment.center,
         children: [
           TextButton( onPressed: () {
-            const visualizationsPage();
-          },
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const visualizationsPage(),
+                ),
+                );},
               child: const Text('Finance Visualization'))
         ],
       ),

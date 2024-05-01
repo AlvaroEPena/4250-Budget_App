@@ -25,8 +25,8 @@ class _IncomeDialogState extends State<IncomeDialog> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns children to the start and end of the row
         children: [
-          const Text('Income'),
-          Column(
+          const Expanded(child: Text('Income')),
+          Flexible( child: Column(
             children: [
               IconButton(
                 key: const Key('HistoryButton'),
@@ -47,7 +47,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
               ),
             ],
           ),
-        ],
+          )],
       ),
       content: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -72,7 +72,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
                     ],
                 ),
               ),
-              ElevatedButton(
+              Flexible(child: ElevatedButton(
                 onPressed: () {
                   if (amount.isNotEmpty) {
                     saveIncomeLog(double.parse(amount), DateTime.now(), notes, selectedCategory);
@@ -81,7 +81,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
                 },
                 child: const Text('Add'),
                 ),
-              ],
+              )],
             ),
             Column(
               children: widget.incomeCategories.map((category) {
@@ -113,7 +113,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
                     ),
                   ),
                 ),
-                ElevatedButton(
+                Flexible( child: ElevatedButton(
                   key: const Key('addCategoryButton'),
                   onPressed: () {
                     if (newCategory.isNotEmpty) {
@@ -125,7 +125,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
                   },
                   child: const Text('Add'),
                 ),
-              ],
+                )],
             ),
           TextFormField(
             key: const Key('notesTextField'),

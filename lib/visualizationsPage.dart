@@ -13,10 +13,10 @@ class _visualizationsPage extends State<visualizationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Visualizations')),
-      body: const Column(
+      appBar: AppBar(title: const Text('Visualizations')),
+      body: const Center( child:Column(
           children: [Text('Graphs'), Text('Charts')]
       )
-    );
+    ));
   }
 }

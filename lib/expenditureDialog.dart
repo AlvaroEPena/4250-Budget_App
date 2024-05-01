@@ -26,10 +26,8 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns children to the start and end of the row
         children: [
-          const Text('Expenditures'),
-          Column(
-            children: [
-              IconButton(
+              const Expanded(child: Text('Expenditure')),
+              Flexible( child: Column(children: [IconButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -46,9 +44,8 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                 style: TextStyle(fontSize: 12),
               ),
             ],
-          ),
-        ],
-      ),
+
+      ))]),
       content: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -72,7 +69,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                   ],
                 ),
               ),
-              ElevatedButton(
+              Flexible( child: ElevatedButton(
                 onPressed: () {
                   if (amount.isNotEmpty) {
                     saveExpenseLog(double.parse(amount), DateTime.now(), notes, selectedCategory, recurring);
@@ -81,7 +78,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                 },
                 child: const Text('Add'),
               ),
-            ],),
+              )],),
             Column(
               children: widget.expendCategories.map((category) {
                 return CheckboxListTile(
@@ -112,7 +109,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                     ),
                   ),
                 ),
-                ElevatedButton(
+                Flexible(child: ElevatedButton(
                   key: const Key('addCategoryButton'),
                   onPressed: () {
                     if (newCategory.isNotEmpty) {
@@ -124,7 +121,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                   },
                   child: const Text('Add'),
                 ),
-              ],
+                )],
             ),
             TextFormField(
               key: const Key('notesTextField'),
