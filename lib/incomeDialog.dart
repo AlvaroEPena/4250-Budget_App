@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 class IncomeDialog extends StatefulWidget {
   final List<String> incomeCategories;
 
-  IncomeDialog({super.key, required this.incomeCategories});
+  const IncomeDialog({super.key, required this.incomeCategories});
 
   @override
   _IncomeDialogState createState() => _IncomeDialogState();
