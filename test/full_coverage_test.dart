@@ -4,9 +4,12 @@ import 'package:budget_manager/hive/transaction_box_model.dart';
 import 'package:budget_manager/hive/transaction_box_operations.dart';
 import 'package:budget_manager/incomeDialog.dart';
 import 'package:budget_manager/main.dart';
+import 'package:budget_manager/transaction_widgets/transactionCards.dart';
+import 'package:budget_manager/transaction_widgets/transactionHistoryPage.dart';
 import 'package:budget_manager/visualizationsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() {
   incomeDialogTests();
@@ -48,6 +51,10 @@ incomeDialogTests() {
     final notesFind = find.byKey(const Key('notesTextField'));
     await tester.tap(notesFind);
     await tester.enterText(notesFind, 'Testing Notes');
+
+    //Submit new income
+    final submitIncome = find.byKey(const Key('addIncomeButton'));
+    await tester.tap(submitIncome);
 
 
 });
@@ -113,3 +120,4 @@ visualizationsPageTests() {
     await tester.tap(visualizationsPageButtonFind);
   });
 }
+

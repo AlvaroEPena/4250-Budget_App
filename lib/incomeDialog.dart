@@ -73,6 +73,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
                 ),
               ),
               Flexible(child: ElevatedButton(
+                key: const Key('addIncomeButton'),
                 onPressed: () {
                   if (amount.isNotEmpty) {
                     saveIncomeLog(double.parse(amount), DateTime.now(), notes, selectedCategory);

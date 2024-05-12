@@ -70,6 +70,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                 ),
               ),
               Flexible( child: ElevatedButton(
+                key: const Key('addExpenditureButton'),
                 onPressed: () {
                   if (amount.isNotEmpty) {
                     saveExpenseLog(double.parse(amount), DateTime.now(), notes, selectedCategory, recurring);

@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'expenditureDialog.dart';
 import 'incomeDialog.dart';
 import 'visualizationsPage.dart';
+import 'getTotalAmounts.dart';
 void main() async {
   await Hive.initFlutter(); // init hive, WidgetsFlutterBinding.ensureInitialized() called here already
 
@@ -89,6 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            totalAmounts(),
             Center(
               child: ButtonBar(
                 alignment: MainAxisAlignment.center,
