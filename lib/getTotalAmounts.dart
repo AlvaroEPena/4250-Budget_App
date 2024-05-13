@@ -1,4 +1,3 @@
-import 'package:budget_manager/transaction_widgets/transactionHistoryPage.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
