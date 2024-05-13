@@ -30,18 +30,28 @@ class _visualizationsPage extends State<visualizationsPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Visualizations')),
       body: SingleChildScrollView( child: Column( children: [
-        const Text('Networth'), Center( child: AspectRatio( aspectRatio: 2.0,
-            child:
+        Center( child: AspectRatio( aspectRatio: 2.0,
+            child: Padding(padding: const EdgeInsets.all(16.0) ,child:
             LineChart(
                 LineChartData(
                   lineBarsData: [
                     LineChartBarData(
+                      color: Colors.red,
+                        barWidth: 4,
                         spots:
                         createGraphPoints(netPoints)
                     )
                   ],
+                  backgroundColor: Colors.red[50],
                   titlesData: FlTitlesData (
                       topTitles: const AxisTitles(
+                        axisNameWidget: Text('NetWorth',
+                            style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                              letterSpacing: 2
+                        )),
+                          axisNameSize: 30,
                           sideTitles: SideTitles(
                             showTitles: false,
                           )
@@ -57,7 +67,7 @@ class _visualizationsPage extends State<visualizationsPage> {
                 ))
         )
         )
-        ,const Text('Income'), Center( child: AspectRatio( aspectRatio: 2.0,
+        ),const Text('Income'), Center( child: AspectRatio( aspectRatio: 2.0,
           child:
             LineChart(
                 LineChartData(
@@ -180,9 +190,13 @@ class _visualizationsPage extends State<visualizationsPage> {
         net.add(Datapoint(incomePoints[i].day, incomePoints[i].month,
             incomePoints[i].year, netAmount + incomePoints[i].amount));
         netAmount = netAmount + incomePoints[i].amount;
+      } else if (i < expendPoints.length) {
+        net.add(Datapoint(expendPoints[i].day, expendPoints[i].month,
+            expendPoints[i].year, netAmount + (expendPoints[i].amount * -1)));
+        netAmount = netAmount + (expendPoints[i].amount * -1);
       }
 
-      if (i < expendPoints.length) {
+      if (i == expendPoints.length) {
         net.add(Datapoint(expendPoints[i].day, expendPoints[i].month,
             expendPoints[i].year, netAmount + (expendPoints[i].amount * -1)));
         netAmount = netAmount + (expendPoints[i].amount * -1);
