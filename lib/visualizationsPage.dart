@@ -20,8 +20,8 @@ class _visualizationsPage extends State<visualizationsPage> {
   @override
   void initState() {
     super.initState();
-    incomePoints = makeDataPointList(Hive.box<Income>('income'), 'day');
-    expendPoints = makeDataPointList(Hive.box<Expense>('expenses'), 'day');
+    incomePoints = makeDataPointList(Hive.box<Income>('income'), 'day', 'income');
+    expendPoints = makeDataPointList(Hive.box<Expense>('expenses'), 'day', 'expense');
     netPoints = netWorth();
   }
 
@@ -49,7 +49,7 @@ class _visualizationsPage extends State<visualizationsPage> {
                             style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,
-                              letterSpacing: 2
+                              letterSpacing: 1
                         )),
                           axisNameSize: 30,
                           sideTitles: SideTitles(
@@ -67,18 +67,26 @@ class _visualizationsPage extends State<visualizationsPage> {
                 ))
         )
         )
-        ),const Text('Income'), Center( child: AspectRatio( aspectRatio: 2.0,
+        ),Center( child: AspectRatio( aspectRatio: 2.0,
           child:
             LineChart(
                 LineChartData(
                   lineBarsData: [
                     LineChartBarData(
+                        color: Colors.red,
+                        barWidth: 4,
                       spots:
                         createGraphPoints(incomePoints)
                     )
                   ],
                   titlesData: FlTitlesData (
                     topTitles: const AxisTitles(
+                      axisNameWidget: Text('Income',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1
+                          )), axisNameSize: 30,
                       sideTitles: SideTitles(
                         showTitles: false,
                       )
@@ -94,18 +102,26 @@ class _visualizationsPage extends State<visualizationsPage> {
           ))
       )
     ),
-        const Text('Expenses'), Center( child: AspectRatio( aspectRatio: 2.0,
+        Center( child: AspectRatio( aspectRatio: 2.0,
             child:
             LineChart(
                 LineChartData(
                   lineBarsData: [
                     LineChartBarData(
+                        color: Colors.red,
+                        barWidth: 4,
                         spots:
                         createGraphPoints(expendPoints)
                     )
                   ],
                   titlesData: FlTitlesData (
                       topTitles: const AxisTitles(
+                          axisNameWidget: Text('Expenditures',
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1
+                              )), axisNameSize: 30,
                           sideTitles: SideTitles(
                             showTitles: false,
                           )
@@ -147,7 +163,7 @@ class _visualizationsPage extends State<visualizationsPage> {
     }
   }
 
-  List<Datapoint> makeDataPointList(Box<dynamic> box, String type) {
+  List<Datapoint> makeDataPointList(Box<dynamic> box, String type, String transactionType) {
     List<Datapoint> pointList = [];
 
     for (var i = 0; i < box.length; i++) {
@@ -157,7 +173,7 @@ class _visualizationsPage extends State<visualizationsPage> {
       double year = value.date.year.toDouble();
       double amount = value.amount.toDouble();
 
-      pointList = DatapointAdder(Datapoint(day, month, year, amount), pointList, type);
+      pointList = DatapointAdder(Datapoint(day, month, year, amount, DateTime(year.toInt(),month,day),transactionType), pointList, type);
     }
     return pointList;
   }
@@ -168,9 +184,9 @@ class _visualizationsPage extends State<visualizationsPage> {
     for (var datapoint in incomePointList) {
         DateTime dateTime = DateTime(
             datapoint.year.toInt(), datapoint.month, datapoint.day);
-        double xValue = dateTime.millisecondsSinceEpoch / (1000 * 60 * 60 * 24);
+        int xValue = dateTime.millisecondsSinceEpoch ~/ (1000 * 60 * 60 * 24);
 
-        FlSpot flSpot = FlSpot(xValue, datapoint.amount);
+        FlSpot flSpot = FlSpot(xValue.toDouble() + 1, datapoint.amount);
         flSpots.add(flSpot);
     }
 
@@ -179,29 +195,30 @@ class _visualizationsPage extends State<visualizationsPage> {
 
   List<Datapoint> netWorth() {
     List<Datapoint> net = [];
+    Map<DateTime, double> dailyAmounts = {};
+
+    List<Datapoint> allPoints = [];
+    allPoints.addAll(incomePoints);
+    allPoints.addAll(expendPoints);
+
+    allPoints.sort((a, b) => a.date.compareTo(b.date));
+
+    for (var point in allPoints) {
+      DateTime date = DateTime(point.year.toInt(), point.month, point.day);
+      if (point.transactionType == 'income') {
+        dailyAmounts.update(date, (value) => value + point.amount,
+            ifAbsent: () => point.amount);
+      } else {
+        dailyAmounts.update(date, (value) => value - point.amount,
+            ifAbsent: () => -point.amount);
+      }
+    }
+
     double netAmount = 0;
-
-    int maxLength = incomePoints.length > expendPoints.length
-        ? incomePoints.length
-        : expendPoints.length;
-
-    for (int i = 0; i < maxLength; i++) {
-      if (i < incomePoints.length) {
-        net.add(Datapoint(incomePoints[i].day, incomePoints[i].month,
-            incomePoints[i].year, netAmount + incomePoints[i].amount));
-        netAmount = netAmount + incomePoints[i].amount;
-      } else if (i < expendPoints.length) {
-        net.add(Datapoint(expendPoints[i].day, expendPoints[i].month,
-            expendPoints[i].year, netAmount + (expendPoints[i].amount * -1)));
-        netAmount = netAmount + (expendPoints[i].amount * -1);
-      }
-
-      if (i == expendPoints.length) {
-        net.add(Datapoint(expendPoints[i].day, expendPoints[i].month,
-            expendPoints[i].year, netAmount + (expendPoints[i].amount * -1)));
-        netAmount = netAmount + (expendPoints[i].amount * -1);
-      }
-
+    for (var entry in dailyAmounts.entries) {
+      netAmount += entry.value;
+      net.add(Datapoint(entry.key.day, entry.key.month, entry.key.year.toDouble(),
+          netAmount, entry.key, 'net'));
     }
 
     return net;
@@ -239,9 +256,11 @@ class _visualizationsPage extends State<visualizationsPage> {
 
 
 class Datapoint {
+  DateTime date;
   int day;
   int month;
   double year;
   double amount;
-  Datapoint(this.day, this.month, this.year, this.amount);
+  String transactionType;
+  Datapoint(this.day, this.month, this.year, this.amount, this.date, this.transactionType);
 }
