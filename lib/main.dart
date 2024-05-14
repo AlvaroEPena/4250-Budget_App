@@ -90,7 +90,20 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //TotalAmounts(),
+              ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                            return const AlertDialog(
+                              title: Text('Networth'),
+                              content: TotalAmounts()
+                            );
+                        }
+                    );
+                  },
+                  child: const Text('Networth')
+              ),
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: <Widget>[
