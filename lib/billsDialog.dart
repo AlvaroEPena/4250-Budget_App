@@ -26,6 +26,7 @@ class _BillsDialogState extends State<BillsDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           CheckboxListTile(
+            key: const Key('BillButton'),
             title: const Text('Mark as Bill'),
             value: isBill,
             onChanged: (bool? value) {
@@ -38,6 +39,7 @@ class _BillsDialogState extends State<BillsDialog> {
             },
           ),
           CheckboxListTile(
+            key: const Key('RecurringButton'),
             title: const Text('Recurring'),
             value: recurring,
             onChanged: (bool? value) {
@@ -51,6 +53,7 @@ class _BillsDialogState extends State<BillsDialog> {
       ),
       actions: [
         ElevatedButton(
+          key: const Key('closeBill'),
           onPressed: () {
             Navigator.of(context).pop();
           },

@@ -1,4 +1,5 @@
 // ignore_for_file: unused_import
+import 'package:budget_manager/billsDialog.dart';
 import 'package:budget_manager/expenditureDialog.dart';
 import 'package:budget_manager/hive/transaction_box_model.dart';
 import 'package:budget_manager/hive/transaction_box_operations.dart';
@@ -18,6 +19,7 @@ void main() {
   expenditureDialogTests();
   visualizationsPageTests();
   imageDialogTests();
+  billsDialogTests();
   }
 
 incomeDialogTests() {
@@ -151,5 +153,32 @@ void imageDialogTests() {
     // Verify that the dialog is closed
     expect(find.byType(ImagePickerDialog), findsNothing);
   });
+}
+
+void billsDialogTests() {
+  testWidgets('billsDialog creation', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.text('Expenditure'));
+    await tester.pump();
+
+    await tester.tap(find.byKey(const Key('billsDialog')));
+    await tester.pump();
+
+    expect(find.byType(BillsDialog), findsOneWidget);
+
+    final billMark = find.byKey(const Key('BillButton'));
+    await tester.tap(billMark);
+
+    final recurringMark = find.byKey(const Key('RecurringButton'));
+    await tester.tap(recurringMark);
+
+    final closeBill = find.byKey(const Key('closeBill'));
+    await tester.tap(closeBill);
+
+
+
+
+});
 }
 

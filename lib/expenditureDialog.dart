@@ -165,6 +165,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                 )],
             ),
             ElevatedButton(
+              key: const Key('billsDialog'),
               onPressed: _openBillsDialog,
               child: const Text('Bills'),
             ),
