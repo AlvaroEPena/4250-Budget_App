@@ -2,6 +2,7 @@ import 'package:budget_manager/hive/transaction_box_operations.dart';
 import 'package:budget_manager/transaction_widgets/transactionHistoryPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'billsDialog.dart';
 import 'imageDialog.dart';
 import 'dart:io';
 
@@ -19,8 +20,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
   String newCategory = '';
   String notes = '';
   String? selectedCategory;
-  bool recurring = false;
-  bool isBill = false;
+  bool _recurring = false;
   File? _image;
 
   void parentSetState(){setState(() {}); return;}
@@ -35,6 +35,24 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               _image = image;
             });
           },
+        );
+      },
+    );
+  }
+
+  void _openBillsDialog(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BillsDialog(
+          onBillSelected: (){
+            setState(() {
+              selectedCategory = 'Bill';
+            });
+          },
+          onRecurringSelected: (bool recurring) {
+            _recurring = recurring;
+          }
         );
       },
     );
@@ -94,7 +112,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                 key: const Key('addExpenditureButton'),
                 onPressed: () {
                   if (amount.isNotEmpty) {
-                    saveExpenseLog(double.parse(amount), DateTime.now(), notes, selectedCategory, recurring);
+                    saveExpenseLog(double.parse(amount), DateTime.now(), notes, selectedCategory, _recurring);
                     Navigator.pop(context); // pop if not empty amount or else keep form there
                   }
                 },
@@ -110,8 +128,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                   onChanged: (bool? value) {
                     setState(() {
                       selectedCategory = category;
-                      isBill = false;
-                      recurring = false;
+                      _recurring = false;
                     }
                     );
                   },
@@ -119,60 +136,11 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               }).toList(),
             ),
             ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Bills'),
-                      content: StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              CheckboxListTile(
-                                title: const Text('Mark as Bill'),
-                                value: isBill,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    isBill = value ?? false;
-                                    if (isBill) {
-                                      selectedCategory = 'Bill';
-                                    } else {
-                                      selectedCategory = null;
-                                    }
-                                    parentSetState();
-                                  });
-                                },
-                              ),
-                              CheckboxListTile(
-                                title: const Text('Recurring'),
-                                value: recurring,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    recurring = value ?? false;
-                                  });
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      actions: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Close'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
+              onPressed: _openBillsDialog,
               child: const Text('Bills'),
             ),
             ElevatedButton(
+              key: const Key('attachImageDialog'),
               onPressed: _openImagePickerDialog,
               child: const Text('Attach Image'),
             ),

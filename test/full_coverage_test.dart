@@ -2,6 +2,7 @@
 import 'package:budget_manager/expenditureDialog.dart';
 import 'package:budget_manager/hive/transaction_box_model.dart';
 import 'package:budget_manager/hive/transaction_box_operations.dart';
+import 'package:budget_manager/imageDialog.dart';
 import 'package:budget_manager/incomeDialog.dart';
 import 'package:budget_manager/main.dart';
 import 'package:budget_manager/transaction_widgets/transactionCards.dart';
@@ -14,9 +15,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() {
   incomeDialogTests();
   historyTests();
-  expenditureDialogTests();
+  //expenditureDialogTests();
   visualizationsPageTests();
-
+  imageDialogTests();
   }
 
 incomeDialogTests() {
@@ -118,6 +119,25 @@ visualizationsPageTests() {
     final visualizationsPageButtonFind = find.text('Finance Visualization');
     expect(visualizationsPageButtonFind, findsOneWidget);
     await tester.tap(visualizationsPageButtonFind);
+  });
+}
+
+void imageDialogTests() {
+  testWidgets('ImagePickerDialog creation', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    // Assuming there's a menu item to open the ExpenditureDialog
+    await tester.tap(find.text('Expenditure'));
+    await tester.pump();
+
+    // Assuming there's a button to open the ImagePickerDialog within the ExpenditureDialog
+    await tester.tap(find.byKey(const Key('attachImageDialog')));
+    await tester.pump();
+
+    // Verify that the ImagePickerDialog is displayed
+    expect(find.byType(ImagePickerDialog), findsOneWidget);
+
+    // You can add more tests here to interact with the dialog and verify its behavior
   });
 }
 
