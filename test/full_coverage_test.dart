@@ -126,18 +126,30 @@ void imageDialogTests() {
   testWidgets('ImagePickerDialog creation', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
-    // Assuming there's a menu item to open the ExpenditureDialog
     await tester.tap(find.text('Expenditure'));
     await tester.pump();
 
-    // Assuming there's a button to open the ImagePickerDialog within the ExpenditureDialog
     await tester.tap(find.byKey(const Key('attachImageDialog')));
     await tester.pump();
 
     // Verify that the ImagePickerDialog is displayed
     expect(find.byType(ImagePickerDialog), findsOneWidget);
 
-    // You can add more tests here to interact with the dialog and verify its behavior
+    final galleryButtonFinder = find.text('Attach Image from Gallery');
+    expect(galleryButtonFinder, findsOneWidget);
+    await tester.tap(galleryButtonFinder);
+    await tester.pump();
+
+    final captureButtonFinder = find.text('Capture Image');
+    expect(captureButtonFinder, findsOneWidget);
+    await tester.tap(captureButtonFinder);
+    await tester.pump();
+
+    await tester.tap(find.text('Close'));
+    await tester.pump();
+
+    // Verify that the dialog is closed
+    expect(find.byType(ImagePickerDialog), findsNothing);
   });
 }
 
