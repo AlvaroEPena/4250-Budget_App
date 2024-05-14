@@ -3,32 +3,32 @@ import 'package:hive/hive.dart';
 
 import 'hive/transaction_box_model.dart';
 
-class totalAmounts extends StatefulWidget {
-
-  const totalAmounts({super.key});
-
-  @override
-  _totalAmounts createState() => _totalAmounts();
-}
-
-class _totalAmounts extends State<totalAmounts> {
+class TotalAmounts extends StatelessWidget {
+  const TotalAmounts({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center( child: Column(
+    return Center(
+      child: Column(
         children: [
-          const Text('Total Balance: ',
-          style: TextStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.bold
-          )),
-          Text(
-            (frontPageAmounts(Hive.box<Income>('income')) -
-                frontPageAmounts(Hive.box<Expense>('expenses')))
-                .toString(),
+          const Text(
+            'Total Balance: ',
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-
-        ]));
+          Builder(
+            builder: (context) {
+              final incomeBox = Hive.box<Income>('income');
+              final expensesBox = Hive.box<Expense>('expenses');
+              final total = frontPageAmounts(incomeBox) - frontPageAmounts(expensesBox);
+              return Text(total.toString());
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   double frontPageAmounts(Box<dynamic> transactionBox) {
@@ -39,4 +39,6 @@ class _totalAmounts extends State<totalAmounts> {
     }
     return totalAmount;
   }
+
+
 }

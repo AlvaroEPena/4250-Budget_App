@@ -90,9 +90,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //totalAmounts(),
-            Center(
-              child: ButtonBar(
+            //TotalAmounts(),
+              ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: <Widget>[
                   ElevatedButton(
@@ -117,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: const Text('Expenditure'),
                   )],
               ),
-            )
+
           ],
         ),
       )
