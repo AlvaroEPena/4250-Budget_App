@@ -14,9 +14,10 @@ void main() async {
   Hive.registerAdapter(IncomeAdapter());
   // to reset database if we do any changes run this once on the specified db and then comment out again.
   // its being deleted and created each run right now for demonstration
-  //await Hive.deleteBoxFromDisk('income');
-  //await Hive.deleteBoxFromDisk('expenses');
-  //await Hive.deleteBoxFromDisk('scheduled_expenses');
+  // uncommented delete for graph demonstrations
+  await Hive.deleteBoxFromDisk('income');
+  await Hive.deleteBoxFromDisk('expenses');
+  await Hive.deleteBoxFromDisk('scheduled_expenses');
 
   // open each box at the start of the program. boxes are created once then stored to be opened at each startup the same way
   await Hive.openBox<Expense>('expenses');
@@ -27,13 +28,28 @@ void main() async {
 
   final box = Hive.box<Income>('income');
   final box2 = Hive.box<Expense>('expenses');
-  for(var income in box.values){
-    print('category: ${income.category}, amount: ${income.amount}, date: ${income.date}, note: ${income.note}');
+
+  List<Income> testIncome = [
+    Income(500.0, DateTime(2024, 5, 9), 'Note', category: 'Job'),
+    Income(200.0, DateTime(2024, 5, 13), 'Note', category: 'Job'),
+  ];
+
+  List<Expense> testExpense = [
+    Expense(150.0, DateTime(2024, 5, 10), 'Test Expense 1', recurring: false),
+    Expense(130.0, DateTime(2024, 5, 12), 'Test Expense 2', recurring: false),
+    Expense(110.0, DateTime(2024, 5, 14), 'Test Expense 3', recurring: false),
+  ];
+
+  // Add testIncome into incomeBox
+  for (var income in testIncome) {
+    box.add(income);
   }
 
-  for(var expense in box2.values){
-    print('category: ${expense.category}, amount: ${expense.amount}, date: ${expense.date}, note: ${expense.note}, recurring: ${expense.recurring}');
+  // Add testExpense into expenseBox
+  for (var expense in testExpense) {
+    box2.add(expense);
   }
+
 }
 
 class MyApp extends StatelessWidget {
