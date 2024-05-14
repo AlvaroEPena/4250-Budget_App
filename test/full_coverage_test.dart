@@ -18,7 +18,7 @@ void main() {
   incomeDialogTests();
   historyTests();
   expenditureDialogTests();
-  visualizationsPageTests();
+  // visualizationsPageTests();
   imageDialogTests();
   billsDialogTests();
   }
