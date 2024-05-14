@@ -20,8 +20,17 @@ class _visualizationsPage extends State<visualizationsPage> {
   @override
   void initState() {
     super.initState();
-    incomePoints = makeDataPointList(Hive.box<Income>('income'), 'day', 'income');
-    expendPoints = makeDataPointList(Hive.box<Expense>('expenses'), 'day', 'expense');
+    //incomePoints = makeDataPointList(Hive.box<Income>('income'), 'day', 'income');
+    //expendPoints = makeDataPointList(Hive.box<Expense>('expenses'), 'day', 'expense');
+    incomePoints = [
+      Datapoint(9, 5, 2024, 500.0, DateTime(2024, 5, 9), 'income'),
+      Datapoint(13, 5, 2024, 200.0, DateTime(2024, 5, 13), 'income'),
+    ];
+    expendPoints = [
+      Datapoint(10, 5, 2024, 150.0, DateTime(2024, 5, 10), 'expense'),
+      Datapoint(12, 5, 2024, 130.0, DateTime(2024, 5, 12), 'expense'),
+      Datapoint(14, 5, 2024, 110.0, DateTime(2024, 5, 14), 'expense'),
+    ];
     netPoints = netWorth();
   }
 

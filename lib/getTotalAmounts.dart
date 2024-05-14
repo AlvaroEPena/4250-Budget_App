@@ -8,7 +8,9 @@ class TotalAmounts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SizedBox(
+      height: 100,
+      width: 100,
       child: Column(
         children: [
           const Text(
@@ -26,7 +28,13 @@ class TotalAmounts extends StatelessWidget {
               return Text(total.toString());
             },
           ),
-        ],
+          ElevatedButton(
+            key: const Key('CloseAmountDialog'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Close'),
+          )],
       ),
     );
   }

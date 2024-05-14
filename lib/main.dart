@@ -96,13 +96,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         context: context,
                         builder: (BuildContext context) {
                             return const AlertDialog(
-                              title: Text('Networth'),
+                              title: Text('Net Worth'),
                               content: TotalAmounts()
                             );
                         }
                     );
                   },
-                  child: const Text('Networth')
+                  child: const Text('Net Worth')
               ),
               ButtonBar(
                 alignment: MainAxisAlignment.center,
