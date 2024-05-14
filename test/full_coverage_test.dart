@@ -15,7 +15,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() {
   incomeDialogTests();
   historyTests();
-  //expenditureDialogTests();
+  expenditureDialogTests();
   visualizationsPageTests();
   imageDialogTests();
   }

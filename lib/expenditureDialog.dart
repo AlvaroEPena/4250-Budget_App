@@ -135,18 +135,6 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                 );
               }).toList(),
             ),
-            ElevatedButton(
-              onPressed: _openBillsDialog,
-              child: const Text('Bills'),
-            ),
-            ElevatedButton(
-              key: const Key('attachImageDialog'),
-              onPressed: _openImagePickerDialog,
-              child: const Text('Attach Image'),
-            ),
-            _image != null
-                ? Image.file(_image!) // testing callback, have image here for later to store permanently
-                : const Text('No image selected'),
             Row(
               children: [
                 Expanded(
@@ -176,6 +164,18 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                 ),
                 )],
             ),
+            ElevatedButton(
+              onPressed: _openBillsDialog,
+              child: const Text('Bills'),
+            ),
+            ElevatedButton(
+              key: const Key('attachImageDialog'),
+              onPressed: _openImagePickerDialog,
+              child: const Text('Attach Image'),
+            ),
+            _image != null
+                ? Image.file(_image!) // testing callback, have image here for later to store permanently
+                : const Text('No image selected'),
             TextFormField(
               key: const Key('notesTextField'),
               onChanged: (value) {
