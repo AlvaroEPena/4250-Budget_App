@@ -18,6 +18,9 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
   String notes = '';
   String? selectedCategory;
   bool recurring = false;
+  bool isBill = false;
+
+  void parentSetState(){setState(() {}); return;}
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +92,67 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                   onChanged: (bool? value) {
                     setState(() {
                       selectedCategory = category;
+                      isBill = false;
+                      recurring = false;
                     }
                     );
                   },
                 );
               }).toList(),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Bills'),
+                      content: StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CheckboxListTile(
+                                title: const Text('Mark as Bill'),
+                                value: isBill,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isBill = value ?? false;
+                                    if (isBill) {
+                                      selectedCategory = 'Bill';
+                                    } else {
+                                      selectedCategory = null;
+                                    }
+                                    parentSetState();
+                                  });
+                                },
+                              ),
+                              CheckboxListTile(
+                                title: const Text('Recurring'),
+                                value: recurring,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    recurring = value ?? false;
+                                  });
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Close'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: const Text('Bills'),
             ),
             Row(
               children: [
