@@ -2,6 +2,8 @@ import 'package:budget_manager/hive/transaction_box_operations.dart';
 import 'package:budget_manager/transaction_widgets/transactionHistoryPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'imageDialog.dart';
+import 'dart:io';
 
 class ExpenditureDialog extends StatefulWidget {
   final List<String> expendCategories;
@@ -19,8 +21,24 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
   String? selectedCategory;
   bool recurring = false;
   bool isBill = false;
+  File? _image;
 
   void parentSetState(){setState(() {}); return;}
+
+  void _openImagePickerDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ImagePickerDialog(
+          onImageSelected: (File? image) {
+            setState(() {
+              _image = image;
+            });
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +172,13 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               },
               child: const Text('Bills'),
             ),
+            ElevatedButton(
+              onPressed: _openImagePickerDialog,
+              child: const Text('Attach Image'),
+            ),
+            _image != null
+                ? Image.file(_image!) // testing callback, have image here for later to store permanently
+                : const Text('No image selected'),
             Row(
               children: [
                 Expanded(
