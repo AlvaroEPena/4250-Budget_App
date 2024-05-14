@@ -122,6 +122,7 @@ visualizationsPageTests() {
     final visualizationsPageButtonFind = find.text('Finance Visualization');
     expect(visualizationsPageButtonFind, findsOneWidget);
     await tester.tap(visualizationsPageButtonFind);
+    await tester.pump();
   });
 }
 
