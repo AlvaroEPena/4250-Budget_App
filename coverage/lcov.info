@@ -372,10 +372,10 @@ DA:90,3
 DA:91,3
 DA:93,1
 DA:95,1
-DA:96,2
-DA:97,1
-DA:99,1
-DA:100,1
+DA:96,1
+DA:97,0
+DA:99,0
+DA:100,0
 DA:106,1
 DA:107,1
 DA:108,1
@@ -396,7 +396,7 @@ DA:138,1
 DA:140,1
 DA:141,3
 LF:64
-LH:36
+LH:33
 end_of_record
 SF:lib\transaction_widgets\transactionCards.dart
 DA:4,0
@@ -488,11 +488,11 @@ LH:1
 end_of_record
 SF:lib\visualizationsPage.dart
 DA:9,1
-DA:11,1
-DA:12,1
-DA:20,1
-DA:22,1
-DA:23,2
+DA:11,0
+DA:12,0
+DA:20,0
+DA:22,0
+DA:23,0
 DA:24,0
 DA:26,0
 DA:29,0
@@ -593,5 +593,5 @@ DA:246,0
 DA:251,0
 DA:266,0
 LF:105
-LH:6
+LH:1
 end_of_record

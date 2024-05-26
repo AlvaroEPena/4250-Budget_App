@@ -30,8 +30,20 @@ void main() async {
   final box2 = Hive.box<Expense>('expenses');
 
   List<Income> testIncome = [
-    Income(500.0, DateTime(2024, 5, 9), 'Note', category: 'Job'),
-    Income(200.0, DateTime(2024, 5, 13), 'Note', category: 'Job'),
+    Income(24.0, DateTime(2024, 2, 20), 'Income Note 39', category: 'Job'),
+    Income(20.0, DateTime(2024, 2, 1), 'Income Note 40', category: 'Job'),
+    Income(250.0, DateTime(2024, 3, 10), 'Income Note 41', category: 'Job'),
+    Income(25.0, DateTime(2024, 3, 20), 'Income Note 42', category: 'Job'),
+    Income(260.0, DateTime(2024, 4, 1), 'Income Note 43', category: 'Job'),
+    Income(265.0, DateTime(2024, 4, 10), 'Income Note 44', category: 'Job'),
+    Income(27.0, DateTime(2024, 4, 20), 'Income Note 45', category: 'Job'),
+    Income(27.0, DateTime(2024, 5, 1), 'Income Note 46', category: 'Job'),
+    Income(28.0, DateTime(2024, 5, 10), 'Income Note 47', category: 'Job'),
+    Income(28.0, DateTime(2024, 5, 20), 'Income Note 48', category: 'Job'),
+    Income(29.0, DateTime(2024, 6, 1), 'Income Note 49', category: 'Job'),
+    Income(29.0, DateTime(2024, 6, 10), 'Income Note 50', category: 'Job'),
+    Income(29.0, DateTime(2024, 6, 11), 'Income Note 50', category: 'Job'),
+    Income(29.0, DateTime(2024, 7, 10), 'Income Note 50', category: 'Job'),
   ];
 
   List<Expense> testExpense = [
