@@ -1,3 +1,4 @@
+import 'package:budget_manager/visualizationTimeScalePicker.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:hive/hive.dart';
@@ -150,7 +151,7 @@ class _visualizationsPage extends State<visualizationsPage> {
               ),
             )
               ,SizedBox(
-                width: 100,
+                width: 110,
                 child: ElevatedButton(
                   onPressed: switchTimePicker,
                   child: Text(
@@ -170,62 +171,34 @@ class _visualizationsPage extends State<visualizationsPage> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Material(
-                color: Theme.of(context).cardColor,
-                child: AnimatedSize(
-                  duration: const Duration(milliseconds: 600),
-                  curve: Curves.ease,
-                  child: SizedBox(
-                    height: _pickerOpen ? null : 0.0,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _pickerYear = _pickerYear - 1;
-                                  pickedYear = _pickerYear;
-                                  total = 0;
-                                });
-                              },
-                              icon: const Icon(Icons.navigate_before_rounded),
-                            ),
-
-                            Expanded(
-                              child: Center(
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      pickedMonth = null;
-                                      pickedYear = _pickerYear;
-                                      timeSpan = 'month';
-                                      total = 0;
-                                      switchTimePicker();
-                                    });
-                                  }, child: Text(_pickerYear.toString()),
-                                ),
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _pickerYear = _pickerYear + 1;
-                                  pickedYear = _pickerYear;
-                                  total = 0;
-                                });
-                              },
-                              icon: const Icon(Icons.navigate_next_rounded),
-                            ),
-                          ],
-                        ),
-                        ...generateMonths(),
-                      ],
-                    ),
+            SizedBox(
+              height: _pickerOpen ? null : 0.0,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  YearPickerWidget(
+                    pickerYear: _pickerYear,
+                    onYearChanged: (year) {
+                      setState(() {
+                        _pickerYear = year;
+                        pickedYear = year;
+                        total = 0;
+                      });
+                    },
+                    onYearTapped: () {
+                      setState(() {
+                        pickedMonth = null;
+                        pickedYear = _pickerYear;
+                        timeSpan = 'month';
+                        total = 0;
+                        switchTimePicker();
+                      });
+                    },
+                    generateMonths: generateMonths,
                   ),
-                ),
+                ],
               ),
-            ],
+    )],
           ),Center( child: AspectRatio( aspectRatio: 2.0,
               child: displayedGraph == 'income' ?
               Padding( padding: const EdgeInsets.only(right: 15), child: buildLineChart(incomePoints, 'Income')) :
