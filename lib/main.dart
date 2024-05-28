@@ -16,9 +16,9 @@ void main() async {
   // to reset database if we do any changes run this once on the specified db and then comment out again.
   // its being deleted and created each run right now for demonstration
   // uncommented delete for graph demonstrations
-  /*await Hive.deleteBoxFromDisk('income');
+  await Hive.deleteBoxFromDisk('income');
   await Hive.deleteBoxFromDisk('expenses');
-  await Hive.deleteBoxFromDisk('scheduled_expenses');*/
+  await Hive.deleteBoxFromDisk('scheduled_expenses');
 
   // open each box at the start of the program. boxes are created once then stored to be opened at each startup the same way
   await Hive.openBox<Expense>('expenses');

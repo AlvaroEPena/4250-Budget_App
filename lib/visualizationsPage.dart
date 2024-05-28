@@ -28,11 +28,7 @@ class _visualizationsPage extends State<visualizationsPage> {
     _initializePoints();
   }
 
-  _initializePoints() async {
-    await Hive.openBox<Expense>('expenses');
-    await Hive.openBox<ScheduledExpense>('scheduled_expenses');
-    await Hive.openBox<Income>('income');
-
+  _initializePoints() {
     incomePoints = makeDataPointList(Hive.box<Income>('income'),'income');
     expendPoints = makeDataPointList(Hive.box<Expense>('expenses'),'expense');
     netPoints = netWorth();
@@ -65,22 +61,22 @@ class _visualizationsPage extends State<visualizationsPage> {
       DateTime dateTime = DateTime(_pickerYear, i, 1);
       months.add(
         TextButton(
-            onPressed: () {
-              setState(() {
-                pickedYear = _pickerYear;
-                pickedMonth = i;
-                timeSpan = 'day';
-                switchTimePicker();
+          onPressed: () {
+            setState(() {
+              pickedYear = _pickerYear;
+              pickedMonth = i;
+              timeSpan = 'day';
+              switchTimePicker();
 
-              });
-            },
-            style: TextButton.styleFrom(
-              shape: const CircleBorder(),
-            ),
-            child: Text(
-              DateFormat('MMM').format(dateTime),
-            ),
+            });
+          },
+          style: TextButton.styleFrom(
+            shape: const CircleBorder(),
           ),
+          child: Text(
+            DateFormat('MMM').format(dateTime),
+          ),
+        ),
       );
     }
     return months;
@@ -101,20 +97,20 @@ class _visualizationsPage extends State<visualizationsPage> {
 
   void _selectedGraph(SampleItem option) {
     setState(() {
-    switch(option) {
-      case SampleItem.income:
-        displayedGraph = 'income';
-        total = 0;
-        break;
-      case SampleItem.expense:
-        displayedGraph = 'expenditures';
-        total = 0;
-        break;
-      case SampleItem.netWorth:
-        displayedGraph = 'netWorth';
-        total = 0;
+      switch(option) {
+        case SampleItem.income:
+          displayedGraph = 'income';
+          total = 0;
+          break;
+        case SampleItem.expense:
+          displayedGraph = 'expenditures';
+          total = 0;
+          break;
+        case SampleItem.netWorth:
+          displayedGraph = 'netWorth';
+          total = 0;
 
-    }
+      }
     });
   }
 
@@ -122,124 +118,145 @@ class _visualizationsPage extends State<visualizationsPage> {
   Widget build(BuildContext context) {
     _initializePoints();
     return Scaffold(
-      appBar: AppBar(title: const Text('Visualizations')),
-      body: SingleChildScrollView( child: Column( children: [
-        Center( child: Column( children: [Center( child: ButtonBar(
-          alignment: MainAxisAlignment.center,
-          children: [SizedBox(
-            width: 175,
-            child: Material(
-              color: Colors.red.shade200,
-              shape: const StadiumBorder(),
-              child: PopupMenuButton<SampleItem>(
-                initialValue: SampleItem.income,
-                position: PopupMenuPosition.under,
-                icon: Text(style: const TextStyle(fontSize: 17, color: Colors.black54, fontWeight: FontWeight.bold ),displayedGraph[0].toUpperCase() + displayedGraph.substring(1)),
-                onSelected: _selectedGraph,
-                itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                  const PopupMenuItem<SampleItem>(
-                    value: SampleItem.income,
-                    child: SizedBox(width: 120,child: Text('Income')),
-                  ),
-                  const PopupMenuItem<SampleItem>(
-                    value: SampleItem.expense,
-                    child: SizedBox(width: 120,child: Text('Expenditures')),
-                  ),
-                  const PopupMenuItem<SampleItem>(
-                    value: SampleItem.netWorth,
-                    child: SizedBox(width: 120,child: Text('NetWorth')),
-                  )
-                ],
+        appBar: AppBar(title: const Text('Visualizations')),
+        body: SingleChildScrollView( child: Column( children: [
+          Center( child: Column( children: [Center( child: ButtonBar(
+            alignment: MainAxisAlignment.center,
+            children: [SizedBox(
+              width: 175,
+              child: Material(
+                color: Colors.red.shade200,
+                shape: const StadiumBorder(),
+                child: PopupMenuButton<SampleItem>(
+                  initialValue: SampleItem.income,
+                  position: PopupMenuPosition.under,
+                  icon: Text(style: const TextStyle(fontSize: 17, color: Colors.black54, fontWeight: FontWeight.bold ),displayedGraph[0].toUpperCase() + displayedGraph.substring(1)),
+                  onSelected: _selectedGraph,
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
+                    const PopupMenuItem<SampleItem>(
+                      value: SampleItem.income,
+                      child: SizedBox(width: 120,child: Text('Income')),
+                    ),
+                    const PopupMenuItem<SampleItem>(
+                      value: SampleItem.expense,
+                      child: SizedBox(width: 120,child: Text('Expenditures')),
+                    ),
+                    const PopupMenuItem<SampleItem>(
+                      value: SampleItem.netWorth,
+                      child: SizedBox(width: 120,child: Text('NetWorth')),
+                    )
+                  ],
+                ),
               ),
-            ),
-          )
-            ,SizedBox(
-              width: 100,
-              child: ElevatedButton(
-                onPressed: switchTimePicker,
-                child: Text(
+            )
+              ,SizedBox(
+                width: 100,
+                child: ElevatedButton(
+                  onPressed: switchTimePicker,
+                  child: Text(
                     (pickedMonth != null ?
-                  '$pickedMonth/' : '') + pickedYear.toString(),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                    '$pickedMonth/' : '') + pickedYear.toString(),
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        )),
-        ])),
+            ],
+          )),
+          ])),
 
-      Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Material(
-          color: Theme.of(context).cardColor,
-          child: AnimatedSize(
-            duration: const Duration(milliseconds: 600),
-            curve: Curves.ease,
-            child: SizedBox(
-              height: _pickerOpen ? null : 0.0,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _pickerYear = _pickerYear - 1;
-                            pickedYear = _pickerYear;
-                            total = 0;
-                          });
-                        },
-                        icon: const Icon(Icons.navigate_before_rounded),
-                      ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Material(
+                color: Theme.of(context).cardColor,
+                child: AnimatedSize(
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.ease,
+                  child: SizedBox(
+                    height: _pickerOpen ? null : 0.0,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _pickerYear = _pickerYear - 1;
+                                  pickedYear = _pickerYear;
+                                  total = 0;
+                                });
+                              },
+                              icon: const Icon(Icons.navigate_before_rounded),
+                            ),
 
-                      Expanded(
-                        child: Center(
-                          child: TextButton(
-                            onPressed: () {
-                              setState(() {
-                                pickedMonth = null;
-                                pickedYear = _pickerYear;
-                                timeSpan = 'month';
-                                total = 0;
-                                switchTimePicker();
-                              });
-                            }, child: Text(_pickerYear.toString()),
-                          ),
+                            Expanded(
+                              child: Center(
+                                child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      pickedMonth = null;
+                                      pickedYear = _pickerYear;
+                                      timeSpan = 'month';
+                                      total = 0;
+                                      switchTimePicker();
+                                    });
+                                  }, child: Text(_pickerYear.toString()),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _pickerYear = _pickerYear + 1;
+                                  pickedYear = _pickerYear;
+                                  total = 0;
+                                });
+                              },
+                              icon: const Icon(Icons.navigate_next_rounded),
+                            ),
+                          ],
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _pickerYear = _pickerYear + 1;
-                            pickedYear = _pickerYear;
-                            total = 0;
-                          });
-                        },
-                        icon: const Icon(Icons.navigate_next_rounded),
-                      ),
-                    ],
+                        ...generateMonths(),
+                      ],
+                    ),
                   ),
-                  ...generateMonths(),
-                ],
+                ),
               ),
-            ),
+            ],
+          ),Center( child: AspectRatio( aspectRatio: 2.0,
+              child: displayedGraph == 'income' ?
+              Padding( padding: const EdgeInsets.only(right: 15), child: buildLineChart(incomePoints, 'Income')) :
+              displayedGraph == 'expenditures' ?
+              Padding( padding: const EdgeInsets.only(right: 15), child: buildLineChart(expendPoints, 'Expense')) :
+              Padding( padding: const EdgeInsets.only(right: 15), child: buildLineChart(netPoints, 'Net Worth'))
           ),
-        ),
-      ],
-    ),Center( child: AspectRatio( aspectRatio: 2.0,
-            child: displayedGraph == 'income' ?
-            Padding( padding: const EdgeInsets.only(right: 15), child: buildLineChart(incomePoints, 'Income')) :
-            displayedGraph == 'expenditures' ?
-            Padding( padding: const EdgeInsets.only(right: 15), child: buildLineChart(expendPoints, 'Expense')) :
-            Padding( padding: const EdgeInsets.only(right: 15), child: buildLineChart(netPoints, 'Net Worth'))
-        ),
-        )
-        ,
-    ])));
+          )
+          ,
+          ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return SizedBox( height: 50, width:50, child: Dialog(
+                      child:
+                      PieChart(
+                          PieChartData(
+                              centerSpaceRadius: 0,
+                              sections: displayedGraph == 'income' ? getSections(pieChartReadData(pieChartGetData(incomePoints, pickedMonth, pickedYear))) :
+                              displayedGraph == 'expenditures' ? getSections(pieChartReadData(pieChartGetData(expendPoints, pickedMonth, pickedYear))) :
+                              getSections(pieChartReadData(pieChartGetData(netPoints, pickedMonth, pickedYear)))
+
+                          )
+                      )));
+                },
+              );
+            },
+            child: const Text('Categories'),
+          )
+        ])));
   }
 
   //generates LineChart from user selected time-span of  DataPointLists
@@ -258,7 +275,7 @@ class _visualizationsPage extends State<visualizationsPage> {
           if (timeSpan == 'month') {
             return 13.0;
           } else {
-           return ((DateTime(pickedYear!, pickedMonth! + 1, 1).subtract(const Duration(days: 1))).millisecondsSinceEpoch ~/ (1000 * 60 * 60 * 24)).toDouble();
+            return ((DateTime(pickedYear!, pickedMonth! + 1, 1).subtract(const Duration(days: 1))).millisecondsSinceEpoch ~/ (1000 * 60 * 60 * 24)).toDouble();
           }
         }(),
         lineBarsData: [
@@ -270,19 +287,19 @@ class _visualizationsPage extends State<visualizationsPage> {
         ],
         backgroundColor: Colors.red[50],
         titlesData: FlTitlesData(
-          topTitles: const AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: false,
+            topTitles: const AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: false,
+              ),
             ),
-          ),
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              interval: timeSpan == 'day' ? 5.0 : null,
-              showTitles: true,
-              getTitlesWidget: (value, meta) =>
-                  bottomTilesWidgets(value, meta, timeSpan),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                interval: timeSpan == 'day' ? 5.0 : null,
+                showTitles: true,
+                getTitlesWidget: (value, meta) =>
+                    bottomTilesWidgets(value, meta, timeSpan),
+              ),
             ),
-          ),
             rightTitles: const AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: false,
@@ -312,7 +329,7 @@ class _visualizationsPage extends State<visualizationsPage> {
             (value * 1000 * 60 * 60 * 24).toInt());
         String time = '${dateTime.day}';
 
-      return Text(time);
+        return Text(time);
       } else if (type == 'month') {
         DateTime date = DateTime(0,value.toInt() - 1);
         return Text(DateFormat.MMM().format(date),style: const TextStyle(fontSize: 12,));
@@ -334,8 +351,9 @@ class _visualizationsPage extends State<visualizationsPage> {
       int month = value.date.month;
       double year = value.date.year.toDouble();
       double amount = value.amount.toDouble();
+      String category = value.category;
 
-      pointList.add(Datapoint(day, month, year, amount, DateTime(year.toInt(),month,day),transactionType));
+      pointList.add(Datapoint(day, month, year, amount, DateTime(year.toInt(),month,day),transactionType, category));
     }
     return pointList;
   }
@@ -382,15 +400,15 @@ class _visualizationsPage extends State<visualizationsPage> {
 
     for (var datapoint in incomePointList) {
       int xValue;
-        if (scale == 'day') {
-          xValue = datapoint.date.millisecondsSinceEpoch ~/
-              (1000 * 60 * 60 * 24);
-        } else {
-          xValue = datapoint.month;
-        }
-        FlSpot flSpot = FlSpot(xValue.toDouble() + 1, datapoint.amount + total + previousAmount);
-        flSpots.add(flSpot);
-        total += datapoint.amount;
+      if (scale == 'day') {
+        xValue = datapoint.date.millisecondsSinceEpoch ~/
+            (1000 * 60 * 60 * 24);
+      } else {
+        xValue = datapoint.month;
+      }
+      FlSpot flSpot = FlSpot(xValue.toDouble() + 1, datapoint.amount + total + previousAmount);
+      flSpots.add(flSpot);
+      total += datapoint.amount;
     }
     if (incomePointList.isNotEmpty && scale == 'day' && incomePointList.last.month < DateTime.now().month) {
       flSpots.add(FlSpot(((DateTime(pickedYear!, pickedMonth! + 1, 1).subtract(const Duration(days: 1))).millisecondsSinceEpoch ~/ (1000 * 60 * 60 * 24)).toDouble(),flSpots.last.y));
@@ -426,7 +444,7 @@ class _visualizationsPage extends State<visualizationsPage> {
     for (var entry in dailyAmounts.entries) {
       //netAmount += entry.value;
       net.add(Datapoint(entry.key.day, entry.key.month, entry.key.year.toDouble(),
-          entry.value, entry.key, 'net'));
+          entry.value, entry.key, 'net', ''));
     }
 
     return net;
@@ -460,7 +478,7 @@ class _visualizationsPage extends State<visualizationsPage> {
     return oldList;
   }
 
-    }
+}
 
 class Datapoint {
   DateTime date;
@@ -469,10 +487,68 @@ class Datapoint {
   double year;
   double amount;
   String transactionType;
-  Datapoint(this.day, this.month, this.year, this.amount, this.date, this.transactionType);
+  String category;
+  Datapoint(this.day, this.month, this.year, this.amount, this.date, this.transactionType, this.category);
 }
 
 
 enum SampleItem { income, expense, netWorth}
 
+List<Datapoint> pieChartGetData(List<Datapoint> dataList, int? month, int? year) {
+  List<Datapoint> newList = [];
 
+  for (var datapoint in dataList) {
+    if (month == null) {
+      if (datapoint.year == year) {
+        newList.add(datapoint);
+      }
+    } else {
+      if (datapoint.month == month && datapoint.year == year) {
+        newList.add(datapoint);
+      }
+    }
+
+  }
+  return newList;
+}
+
+Map<String, double> pieChartReadData(List<Datapoint> mapData) {
+  Map<String, double> categories = {};
+
+  for (var datapoint in mapData) {
+    if (categories.containsKey(datapoint.category)) {
+      categories[datapoint.category] = categories[datapoint.category]! + datapoint.amount;
+    } else {
+      categories[datapoint.category] = datapoint.amount;
+    }
+
+  }
+  return categories;
+}
+
+
+
+
+
+
+List<PieChartSectionData> getSections(Map<String, double> pieChartData) {
+  double total = pieChartData.values.fold(0, (sum, value) => sum + value);
+
+  return List.generate(pieChartData.length, (index) {
+    String key = pieChartData.keys.elementAt(index);
+    double value = pieChartData[key] ?? 0;
+    double percentage = (value / total) * 100;
+
+    return PieChartSectionData(
+      color: Colors.red,
+      value: value,
+      title: '$key (${percentage.toStringAsFixed(1)}%)',
+      radius: 100,
+      titleStyle: const TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
+    );
+  });
+}
