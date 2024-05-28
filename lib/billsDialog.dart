@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 class BillsDialog extends StatefulWidget {
   final Function onBillSelected;
   final Function onRecurringSelected;
+  bool isBill;
+  bool recurring;
 
-  const BillsDialog({
+  BillsDialog({
     super.key,
     required this.onBillSelected,
     required this.onRecurringSelected,
+    required this.isBill,
+    required this.recurring
   });
 
   @override
@@ -15,8 +19,6 @@ class BillsDialog extends StatefulWidget {
 }
 
 class _BillsDialogState extends State<BillsDialog> {
-  bool isBill = false;
-  bool recurring = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,24 +30,22 @@ class _BillsDialogState extends State<BillsDialog> {
           CheckboxListTile(
             key: const Key('BillButton'),
             title: const Text('Mark as Bill'),
-            value: isBill,
+            value: widget.isBill,
             onChanged: (bool? value) {
               setState(() {
-                isBill = value ?? false;
-                if (isBill) {
-                  widget.onBillSelected();
-                }
+                widget.isBill = value ?? false;
+                widget.onBillSelected(widget.isBill);
               });
             },
           ),
           CheckboxListTile(
             key: const Key('RecurringButton'),
             title: const Text('Recurring'),
-            value: recurring,
+            value: widget.recurring,
             onChanged: (bool? value) {
               setState(() {
-                recurring = value ?? false;
-                widget.onRecurringSelected(recurring);
+                widget.recurring = value ?? false;
+                widget.onRecurringSelected(widget.recurring);
               });
             },
           ),

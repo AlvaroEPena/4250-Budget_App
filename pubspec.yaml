@@ -34,6 +34,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   path_provider: ^2.1.0
+  path: ^1.9.0
   intl: ^0.17.0 # this one is for date and time parsing if we are going to use date + time
   image_picker: ^1.1.1
 

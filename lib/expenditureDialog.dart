@@ -21,18 +21,17 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
   String notes = '';
   String? selectedCategory;
   bool _recurring = false;
-  File? _image;
-
-  void parentSetState(){setState(() {}); return;}
+  bool _isBill = false;
+  String? imagePath;
 
   void _openImagePickerDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return ImagePickerDialog(
-          onImageSelected: (File? image) {
+          onImageSelected: (String imagePath) {
             setState(() {
-              _image = image;
+              this.imagePath = imagePath;
             });
           },
         );
@@ -45,14 +44,17 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
       context: context,
       builder: (BuildContext context) {
         return BillsDialog(
-          onBillSelected: (){
+          onBillSelected: (bool isBill){
             setState(() {
-              selectedCategory = 'Bill';
+              selectedCategory = isBill ? 'Bill' : selectedCategory;
+              _isBill = isBill;
             });
           },
           onRecurringSelected: (bool recurring) {
             _recurring = recurring;
-          }
+          },
+          isBill: _isBill,
+          recurring: _recurring,
         );
       },
     );
@@ -112,7 +114,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                 key: const Key('addExpenditureButton'),
                 onPressed: () {
                   if (amount.isNotEmpty) {
-                    saveExpenseLog(double.parse(amount), DateTime.now(), notes, selectedCategory, _recurring);
+                    saveExpenseLog(double.parse(amount), DateTime.now(), notes, selectedCategory, _recurring, imagePath);
                     Navigator.pop(context); // pop if not empty amount or else keep form there
                   }
                 },
@@ -129,6 +131,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
                     setState(() {
                       selectedCategory = category;
                       _recurring = false;
+                      _isBill = false;
                     }
                     );
                   },
@@ -174,9 +177,6 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
               onPressed: _openImagePickerDialog,
               child: const Text('Attach Image'),
             ),
-            _image != null
-                ? Image.file(_image!) // testing callback, have image here for later to store permanently
-                : const Text('No image selected'),
             TextFormField(
               key: const Key('notesTextField'),
               onChanged: (value) {

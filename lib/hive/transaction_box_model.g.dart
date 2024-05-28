@@ -20,16 +20,17 @@ class ExpenseAdapter extends TypeAdapter<Expense> {
       fields[1] as double,
       fields[2] as DateTime,
       fields[3] as String,
+      fields[4] as String?,
       category: fields[0] as String,
-      recurring: fields[4] as bool,
+      recurring: fields[5] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Expense obj) {
     writer
+      ..writeByte(6)
       ..writeByte(5)
-      ..writeByte(4)
       ..write(obj.recurring)
       ..writeByte(0)
       ..write(obj.category)
@@ -38,7 +39,9 @@ class ExpenseAdapter extends TypeAdapter<Expense> {
       ..writeByte(2)
       ..write(obj.date)
       ..writeByte(3)
-      ..write(obj.note);
+      ..write(obj.note)
+      ..writeByte(4)
+      ..write(obj.imagePath);
   }
 
   @override
@@ -66,16 +69,17 @@ class ScheduledExpenseAdapter extends TypeAdapter<ScheduledExpense> {
       fields[1] as double,
       fields[2] as DateTime,
       fields[3] as String,
+      fields[4] as String?,
       category: fields[0] as String,
-      dueDate: fields[4] as DateTime,
+      dueDate: fields[5] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, ScheduledExpense obj) {
     writer
+      ..writeByte(6)
       ..writeByte(5)
-      ..writeByte(4)
       ..write(obj.dueDate)
       ..writeByte(0)
       ..write(obj.category)
@@ -84,7 +88,9 @@ class ScheduledExpenseAdapter extends TypeAdapter<ScheduledExpense> {
       ..writeByte(2)
       ..write(obj.date)
       ..writeByte(3)
-      ..write(obj.note);
+      ..write(obj.note)
+      ..writeByte(4)
+      ..write(obj.imagePath);
   }
 
   @override
@@ -112,6 +118,7 @@ class IncomeAdapter extends TypeAdapter<Income> {
       fields[1] as double,
       fields[2] as DateTime,
       fields[3] as String,
+      fields[4] as String?,
       category: fields[0] as String,
     );
   }
@@ -119,7 +126,7 @@ class IncomeAdapter extends TypeAdapter<Income> {
   @override
   void write(BinaryWriter writer, Income obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.category)
       ..writeByte(1)
@@ -127,7 +134,9 @@ class IncomeAdapter extends TypeAdapter<Income> {
       ..writeByte(2)
       ..write(obj.date)
       ..writeByte(3)
-      ..write(obj.note);
+      ..write(obj.note)
+      ..writeByte(4)
+      ..write(obj.imagePath);
   }
 
   @override

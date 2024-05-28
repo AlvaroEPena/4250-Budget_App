@@ -76,7 +76,7 @@ class _IncomeDialogState extends State<IncomeDialog> {
                 key: const Key('addIncomeButton'),
                 onPressed: () {
                   if (amount.isNotEmpty) {
-                    saveIncomeLog(double.parse(amount), DateTime.now(), notes, selectedCategory);
+                    saveIncomeLog(double.parse(amount), DateTime.now(), notes, selectedCategory, null); // door open to save images for income too
                     Navigator.pop(context); // pop if not empty amount or else keep form there
                   }
                 },

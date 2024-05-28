@@ -15,9 +15,9 @@ void main() async {
   // to reset database if we do any changes run this once on the specified db and then comment out again.
   // its being deleted and created each run right now for demonstration
   // uncommented delete for graph demonstrations
-  await Hive.deleteBoxFromDisk('income');
+  /*await Hive.deleteBoxFromDisk('income');
   await Hive.deleteBoxFromDisk('expenses');
-  await Hive.deleteBoxFromDisk('scheduled_expenses');
+  await Hive.deleteBoxFromDisk('scheduled_expenses');*/
 
   // open each box at the start of the program. boxes are created once then stored to be opened at each startup the same way
   await Hive.openBox<Expense>('expenses');
@@ -29,27 +29,27 @@ void main() async {
   final box = Hive.box<Income>('income');
   final box2 = Hive.box<Expense>('expenses');
 
-  List<Income> testIncome = [
-    Income(24.0, DateTime(2024, 2, 20), 'Income Note 39', category: 'Job'),
-    Income(20.0, DateTime(2024, 2, 1), 'Income Note 40', category: 'Job'),
-    Income(250.0, DateTime(2024, 3, 10), 'Income Note 41', category: 'Job'),
-    Income(25.0, DateTime(2024, 3, 20), 'Income Note 42', category: 'Job'),
-    Income(260.0, DateTime(2024, 4, 1), 'Income Note 43', category: 'Job'),
-    Income(265.0, DateTime(2024, 4, 10), 'Income Note 44', category: 'Job'),
-    Income(27.0, DateTime(2024, 4, 20), 'Income Note 45', category: 'Job'),
-    Income(27.0, DateTime(2024, 5, 1), 'Income Note 46', category: 'Job'),
-    Income(28.0, DateTime(2024, 5, 10), 'Income Note 47', category: 'Job'),
-    Income(28.0, DateTime(2024, 5, 20), 'Income Note 48', category: 'Job'),
-    Income(29.0, DateTime(2024, 6, 1), 'Income Note 49', category: 'Job'),
-    Income(29.0, DateTime(2024, 6, 10), 'Income Note 50', category: 'Job'),
-    Income(29.0, DateTime(2024, 6, 11), 'Income Note 50', category: 'Job'),
-    Income(29.0, DateTime(2024, 7, 10), 'Income Note 50', category: 'Job'),
+ /* List<Income> testIncome = [
+    Income(24.0, DateTime(2024, 2, 20), 'Income Note 39', "", category: 'Job'),
+    Income(20.0, DateTime(2024, 2, 1), 'Income Note 40', "", category: 'Job'),
+    Income(250.0, DateTime(2024, 3, 10), 'Income Note 41', "", category: 'Job'),
+    Income(25.0, DateTime(2024, 3, 20), 'Income Note 42', "", category: 'Job'),
+    Income(260.0, DateTime(2024, 4, 1), 'Income Note 43', "", category: 'Job'),
+    Income(265.0, DateTime(2024, 4, 10), 'Income Note 44', "", category: 'Job'),
+    Income(27.0, DateTime(2024, 4, 20), 'Income Note 45', "", category: 'Job'),
+    Income(27.0, DateTime(2024, 5, 1), 'Income Note 46', "", category: 'Job'),
+    Income(28.0, DateTime(2024, 5, 10), 'Income Note 47', "", category: 'Job'),
+    Income(28.0, DateTime(2024, 5, 20), 'Income Note 48', "", category: 'Job'),
+    Income(29.0, DateTime(2024, 6, 1), 'Income Note 49', "", category: 'Job'),
+    Income(29.0, DateTime(2024, 6, 10), 'Income Note 50', "", category: 'Job'),
+    Income(29.0, DateTime(2024, 6, 11), 'Income Note 50', "", category: 'Job'),
+    Income(29.0, DateTime(2024, 7, 10), 'Income Note 50', "", category: 'Job'),
   ];
 
   List<Expense> testExpense = [
-    Expense(150.0, DateTime(2024, 5, 10), 'Test Expense 1', recurring: false),
-    Expense(130.0, DateTime(2024, 5, 12), 'Test Expense 2', recurring: false),
-    Expense(110.0, DateTime(2024, 5, 14), 'Test Expense 3', recurring: false),
+    Expense(150.0, DateTime(2024, 5, 10), 'Test Expense 1', "", recurring: false),
+    Expense(130.0, DateTime(2024, 5, 12), 'Test Expense 2', "", recurring: false),
+    Expense(110.0, DateTime(2024, 5, 14), 'Test Expense 3', "", recurring: false),
   ];
 
   // Add testIncome into incomeBox
@@ -60,7 +60,7 @@ void main() async {
   // Add testExpense into expenseBox
   for (var expense in testExpense) {
     box2.add(expense);
-  }
+  }*/
 
 }
 

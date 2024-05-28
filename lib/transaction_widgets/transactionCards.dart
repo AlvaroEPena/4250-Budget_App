@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:budget_manager/hive/transaction_box_model.dart';
+import 'package:budget_manager/transaction_widgets/imageViewer.dart';
 
 Widget createTransactionCard(Transaction transaction) {
     if (transaction is Expense) {
@@ -22,7 +23,6 @@ class ExpenseCard extends StatelessWidget {
     required this.transaction
   });
 
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -36,8 +36,17 @@ class ExpenseCard extends StatelessWidget {
             Text('Amount: ${transaction.amount}'),
             Text('Date: ${transaction.date}'),
             Text('Note: ${transaction.note}'),
-            Text('Recurring: ${transaction.recurring}'),
+            Text('Recurring: ${transaction.recurring ? 'Yes' : 'No'}'),
           ],
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.image),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => ImageDialog(imagePath: transaction.imagePath),
+            );
+          },
         ),
       ),
     );
@@ -67,6 +76,15 @@ class ScheduledExpenseCard extends StatelessWidget {
             Text('Note: ${transaction.note}'),
             Text('Due Date: ${transaction.dueDate}'),
           ],
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.image),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => ImageDialog(imagePath: transaction.imagePath),
+            );
+          },
         ),
       ),
     );

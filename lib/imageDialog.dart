@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:budget_manager/hive/transaction_box_operations.dart';
 
 class ImagePickerDialog extends StatefulWidget {
-  final void Function(File?) onImageSelected;
+  final void Function(String) onImageSelected;
 
   const ImagePickerDialog({super.key, required this.onImageSelected});
 
@@ -13,25 +14,29 @@ class ImagePickerDialog extends StatefulWidget {
 
 class _ImagePickerDialogState extends State<ImagePickerDialog> {
   File? _image;
-  final ImagePicker _picker = ImagePicker();
+  final ImagePicker picker = ImagePicker();
 
   Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final savedPath = await saveImageLocally(File(pickedFile.path));
       setState(() {
-        _image = File(image.path);
+        _image = File(savedPath!);
       });
-      widget.onImageSelected(_image);
+      widget.onImageSelected(savedPath!);
     }
   }
 
   Future<void> _captureImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-    if (image != null) {
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      final savedPath = await saveImageLocally(File(pickedFile.path));
       setState(() {
-        _image = File(image.path);
+        _image = File(savedPath!);
       });
-      widget.onImageSelected(_image); // TODO: sending image back need to store it somewhere
+      widget.onImageSelected(savedPath!); // send path back to
     }
   }
 
