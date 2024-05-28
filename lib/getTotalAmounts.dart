@@ -25,7 +25,7 @@ class TotalAmounts extends StatelessWidget {
               final incomeBox = Hive.box<Income>('income');
               final expensesBox = Hive.box<Expense>('expenses');
               final total = frontPageAmounts(incomeBox) - frontPageAmounts(expensesBox);
-              return Text(total.toString());
+              return Text(total.toStringAsFixed(2));
             },
           ),
           ElevatedButton(

@@ -47,6 +47,7 @@ void main() async {
     Income(29.0, DateTime(2024, 6, 5), 'Income Note 15', null, category: 'Gift'),
     Income(29.0, DateTime(2024, 6, 6), 'Income Note 16', null, category: 'Ebay'),
     Income(29.0, DateTime(2024, 6, 7), 'Income Note 17', null, category: 'Job'),
+    Income(629.29, DateTime(2024, 6, 8), 'Income Note 18', null, category: 'Job'),
   ];
   List<Expense> testExpense = [
   Expense(150.0, DateTime(2024, 2, 1), 'Test Expense 1', null, recurring: false, category: 'Food & Dining'),
