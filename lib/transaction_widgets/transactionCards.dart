@@ -44,7 +44,7 @@ class ExpenseCard extends StatelessWidget {
           onPressed: () {
             showDialog(
               context: context,
-              builder: (BuildContext context) => ImageDialog(imagePath: transaction.imagePath),
+              builder: (BuildContext context) => ImageViewer(imagePath: transaction.imagePath),
             );
           },
         ),
@@ -82,7 +82,7 @@ class ScheduledExpenseCard extends StatelessWidget {
           onPressed: () {
             showDialog(
               context: context,
-              builder: (BuildContext context) => ImageDialog(imagePath: transaction.imagePath),
+              builder: (BuildContext context) => ImageViewer(imagePath: transaction.imagePath),
             );
           },
         ),

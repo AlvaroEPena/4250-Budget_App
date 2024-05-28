@@ -5,6 +5,7 @@ import 'expenditureDialog.dart';
 import 'incomeDialog.dart';
 import 'visualizationsPage.dart';
 import 'getTotalAmounts.dart';
+
 void main() async {
   await Hive.initFlutter(); // init hive, WidgetsFlutterBinding.ensureInitialized() called here already
 

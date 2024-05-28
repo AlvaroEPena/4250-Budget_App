@@ -1,4 +1,3 @@
-// ignore_for_file: unused_import
 import 'package:budget_manager/billsDialog.dart';
 import 'package:budget_manager/expenditureDialog.dart';
 import 'package:budget_manager/getTotalAmounts.dart';
@@ -7,18 +6,23 @@ import 'package:budget_manager/hive/transaction_box_operations.dart';
 import 'package:budget_manager/imageDialog.dart';
 import 'package:budget_manager/incomeDialog.dart';
 import 'package:budget_manager/main.dart';
+import 'package:budget_manager/transaction_widgets/imageViewer.dart';
 import 'package:budget_manager/transaction_widgets/transactionCards.dart';
 import 'package:budget_manager/transaction_widgets/transactionHistoryPage.dart';
 import 'package:budget_manager/visualizationsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:path/path.dart' as path;
 
-void main() {
+void main() async {
   incomeDialogTests();
   historyTests();
   expenditureDialogTests();
-  // visualizationsPageTests();
+  //visualizationsPageTests();
+  imageViewerTests();
   imageDialogTests();
   billsDialogTests();
   }
@@ -65,7 +69,7 @@ incomeDialogTests() {
 }
 
 historyTests() {
-  testWidgets('History', (WidgetTester tester) async {
+  testWidgets('Income History', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
     final incomeButtonFind = find.text('Income');
     expect(incomeButtonFind, findsOneWidget);
@@ -74,9 +78,22 @@ historyTests() {
     expect(find.byType(IncomeDialog), findsOneWidget);
 
     //Enter HistoryButton
-    final historyButtonfind = find.byKey(const Key('HistoryButton'));
-    await tester.tap(historyButtonfind);
+    final historyButtonFind = find.byKey(const Key('HistoryButton'));
+    await tester.tap(historyButtonFind);
 
+  });
+
+  testWidgets('Expenditures History', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    final expendButtonFind = find.text('Expenditure');
+    expect(expendButtonFind, findsOneWidget);
+    await tester.tap(expendButtonFind);
+    await tester.pump();
+    expect(find.byType(ExpenditureDialog), findsOneWidget);
+
+    //Enter HistoryButton
+    final historyButtonFind = find.byKey(const Key('HistoryButton'));
+    await tester.tap(historyButtonFind);
   });
 }
 
@@ -116,13 +133,80 @@ expenditureDialogTests() {
   });
 }
 
-visualizationsPageTests() {
+void visualizationsPageTests() {
   testWidgets('visualizationTest', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
-    final visualizationsPageButtonFind = find.text('Finance Visualization');
-    expect(visualizationsPageButtonFind, findsOneWidget);
-    await tester.tap(visualizationsPageButtonFind);
-    await tester.pump();
+    await tester.runAsync(() async {
+      // Setup the test environment and open necessary boxes
+      await Hive.initFlutter();
+      await Hive.openBox<Expense>('expenses');
+      await Hive.openBox<ScheduledExpense>('scheduled_expenses');
+      await Hive.openBox<Income>('income');
+
+      // Build the visualizations page
+      await tester.pumpWidget(const MaterialApp(
+        home: Scaffold(
+          body: visualizationsPage(),
+        ),
+      ));
+
+      // Verify that the visualization page is displayed
+      expect(find.text('Visualizations'), findsOneWidget);
+
+      // Your other test assertions go here
+    });
+  });
+}
+
+void imageViewerTests() {
+  testWidgets('ImageDialog displays image if imagePath exists', (WidgetTester tester) async {
+    // Setup the test environment and create a test image file
+    await tester.runAsync(() async {
+      final tempDir = Directory.systemTemp.createTempSync();
+      final imagePath = path.join(tempDir.path, 'test_image.png');
+      final testImage = File(imagePath);
+      await testImage.writeAsBytes(List<int>.generate(256, (index) => index % 256)); // Create a dummy image file
+
+      // Build the ImageDialog widget
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: ImageViewer(imagePath: imagePath),
+          ),
+        ),
+      );
+
+      // Verify that the image is displayed
+      expect(find.byType(Image), findsOneWidget);
+
+    });
+  });
+
+  testWidgets('ImageDialog displays no image message if imagePath is null or does not exist', (WidgetTester tester) async {
+    // Build the ImageDialog widget with no image path
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: ImageViewer(imagePath: null),
+        ),
+      ),
+    );
+
+    // Verify that the "No image available" message is displayed
+    expect(find.text('No image available for this transaction'), findsOneWidget);
+  });
+
+  testWidgets('ImageDialog displays no image message if imagePath does not exist', (WidgetTester tester) async {
+    // Build the ImageDialog widget with a non-existing image path
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: ImageViewer(imagePath: '/non/existing/path.png'),
+        ),
+      ),
+    );
+
+    // Verify that the "No image available" message is displayed
+    expect(find.text('No image available for this transaction'), findsOneWidget);
   });
 }
 

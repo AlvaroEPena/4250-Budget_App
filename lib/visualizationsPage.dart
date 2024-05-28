@@ -28,7 +28,11 @@ class _visualizationsPage extends State<visualizationsPage> {
     _initializePoints();
   }
 
-  _initializePoints() {
+  _initializePoints() async {
+    await Hive.openBox<Expense>('expenses');
+    await Hive.openBox<ScheduledExpense>('scheduled_expenses');
+    await Hive.openBox<Income>('income');
+
     incomePoints = makeDataPointList(Hive.box<Income>('income'),'income');
     expendPoints = makeDataPointList(Hive.box<Expense>('expenses'),'expense');
     netPoints = netWorth();

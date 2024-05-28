@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'billsDialog.dart';
 import 'imageDialog.dart';
-import 'dart:io';
 
 class ExpenditureDialog extends StatefulWidget {
   final List<String> expendCategories;
@@ -68,12 +67,15 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns children to the start and end of the row
         children: [
               const Expanded(child: Text('Expenditure')),
-              Flexible( child: Column(children: [IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TransactionHistoryPage(transactionType: 'expenses'),
+              Flexible( child: Column(
+                children: [
+                  IconButton(
+                    key: const Key('HistoryButton'),
+                    onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TransactionHistoryPage(transactionType: 'expenses'),
                     ),
                   );
                 },

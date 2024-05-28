@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-class ImageDialog extends StatelessWidget {
+class ImageViewer extends StatelessWidget {
   final String? imagePath;
 
-  const ImageDialog({
+  const ImageViewer({
     super.key,
     this.imagePath
   });
