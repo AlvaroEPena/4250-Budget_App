@@ -5,8 +5,9 @@ import 'package:budget_manager/hive/transaction_box_operations.dart';
 
 class ImagePickerDialog extends StatefulWidget {
   final void Function(String) onImageSelected;
+  final String? imagePath;
 
-  const ImagePickerDialog({super.key, required this.onImageSelected});
+  const ImagePickerDialog({super.key, required this.onImageSelected, required this.imagePath});
 
   @override
   _ImagePickerDialogState createState() => _ImagePickerDialogState();
@@ -15,6 +16,17 @@ class ImagePickerDialog extends StatefulWidget {
 class _ImagePickerDialogState extends State<ImagePickerDialog> {
   File? _image;
   final ImagePicker picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.imagePath != null) {
+      final file = File(widget.imagePath!);
+      if (file.existsSync()) {
+        _image = file;
+      }
+    }
+  }
 
   Future<void> _pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);

@@ -28,6 +28,7 @@ class _ExpenditureDialogState extends State<ExpenditureDialog> {
       context: context,
       builder: (BuildContext context) {
         return ImagePickerDialog(
+          imagePath: imagePath,
           onImageSelected: (String imagePath) {
             setState(() {
               this.imagePath = imagePath;

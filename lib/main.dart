@@ -29,7 +29,6 @@ void main() async {
 
   final box = Hive.box<Income>('income');
   final box2 = Hive.box<Expense>('expenses');
-
   List<Income> testIncome = [
     Income(1.0, DateTime(2024, 2, 1), 'Income Note 1', null, category: 'Gift'),
     Income(20.0, DateTime(2024, 2, 20), 'Income Note 2', null, category: 'Job'),
@@ -49,7 +48,6 @@ void main() async {
     Income(29.0, DateTime(2024, 6, 6), 'Income Note 16', null, category: 'Ebay'),
     Income(29.0, DateTime(2024, 6, 7), 'Income Note 17', null, category: 'Job'),
   ];
-
   List<Expense> testExpense = [
   Expense(150.0, DateTime(2024, 2, 1), 'Test Expense 1', null, recurring: false, category: 'Food & Dining'),
   Expense(20.0, DateTime(2024, 2, 20), 'Test Expense 2', null, recurring: true, category: 'Auto & Transport'),
@@ -69,17 +67,14 @@ void main() async {
   Expense(29.0, DateTime(2024, 6, 6), 'Test Expense 16', null, recurring: true, category: 'Other'),
   Expense(29.0, DateTime(2024, 6, 7), 'Test Expense 17', null, recurring: false, category: 'Food & Dining'),
   ];
-
   // Add testIncome into incomeBox
   for (var income in testIncome) {
     box.add(income);
   }
-
   // Add testExpense into expenseBox
   for (var expense in testExpense) {
     box2.add(expense);
   }
-
 }
 
 class MyApp extends StatelessWidget {
