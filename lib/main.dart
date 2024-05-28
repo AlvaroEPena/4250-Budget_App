@@ -31,8 +31,8 @@ void main() async {
   final box2 = Hive.box<Expense>('expenses');
 
   List<Income> testIncome = [
-    Income(1.0, DateTime(2024, 2, 20), 'Income Note 1', null, category: 'Gift'),
-    Income(20.0, DateTime(2024, 2, 1), 'Income Note 2', null, category: 'Job'),
+    Income(1.0, DateTime(2024, 2, 1), 'Income Note 1', null, category: 'Gift'),
+    Income(20.0, DateTime(2024, 2, 20), 'Income Note 2', null, category: 'Job'),
     Income(250.0, DateTime(2024, 3, 10), 'Income Note 3', null, category: 'Ebay'),
     Income(25.0, DateTime(2024, 3, 20), 'Income Note 4', null, category: 'Job'),
     Income(260.0, DateTime(2024, 4, 1), 'Income Note 5', null, category: 'Gift'),
@@ -51,8 +51,8 @@ void main() async {
   ];
 
   List<Expense> testExpense = [
-  Expense(150.0, DateTime(2024, 2, 20), 'Test Expense 1', null, recurring: false, category: 'Food & Dining'),
-  Expense(20.0, DateTime(2024, 2, 1), 'Test Expense 2', null, recurring: true, category: 'Auto & Transport'),
+  Expense(150.0, DateTime(2024, 2, 1), 'Test Expense 1', null, recurring: false, category: 'Food & Dining'),
+  Expense(20.0, DateTime(2024, 2, 20), 'Test Expense 2', null, recurring: true, category: 'Auto & Transport'),
   Expense(250.0, DateTime(2024, 3, 10), 'Test Expense 3', null, recurring: false, category: 'Leisure'),
   Expense(25.0, DateTime(2024, 3, 20), 'Test Expense 4', null, recurring: true, category: 'Other'),
   Expense(260.0, DateTime(2024, 4, 1), 'Test Expense 5', null, recurring: false, category: 'Food & Dining'),
