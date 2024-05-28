@@ -30,27 +30,44 @@ void main() async {
   final box = Hive.box<Income>('income');
   final box2 = Hive.box<Expense>('expenses');
 
- /* List<Income> testIncome = [
-    Income(24.0, DateTime(2024, 2, 20), 'Income Note 39', "", category: 'Job'),
-    Income(20.0, DateTime(2024, 2, 1), 'Income Note 40', "", category: 'Job'),
-    Income(250.0, DateTime(2024, 3, 10), 'Income Note 41', "", category: 'Job'),
-    Income(25.0, DateTime(2024, 3, 20), 'Income Note 42', "", category: 'Job'),
-    Income(260.0, DateTime(2024, 4, 1), 'Income Note 43', "", category: 'Job'),
-    Income(265.0, DateTime(2024, 4, 10), 'Income Note 44', "", category: 'Job'),
-    Income(27.0, DateTime(2024, 4, 20), 'Income Note 45', "", category: 'Job'),
-    Income(27.0, DateTime(2024, 5, 1), 'Income Note 46', "", category: 'Job'),
-    Income(28.0, DateTime(2024, 5, 10), 'Income Note 47', "", category: 'Job'),
-    Income(28.0, DateTime(2024, 5, 20), 'Income Note 48', "", category: 'Job'),
-    Income(29.0, DateTime(2024, 6, 1), 'Income Note 49', "", category: 'Job'),
-    Income(29.0, DateTime(2024, 6, 10), 'Income Note 50', "", category: 'Job'),
-    Income(29.0, DateTime(2024, 6, 11), 'Income Note 50', "", category: 'Job'),
-    Income(29.0, DateTime(2024, 7, 10), 'Income Note 50', "", category: 'Job'),
+  List<Income> testIncome = [
+    Income(1.0, DateTime(2024, 2, 20), 'Income Note 1', null, category: 'Gift'),
+    Income(20.0, DateTime(2024, 2, 1), 'Income Note 2', null, category: 'Job'),
+    Income(250.0, DateTime(2024, 3, 10), 'Income Note 3', null, category: 'Ebay'),
+    Income(25.0, DateTime(2024, 3, 20), 'Income Note 4', null, category: 'Job'),
+    Income(260.0, DateTime(2024, 4, 1), 'Income Note 5', null, category: 'Gift'),
+    Income(265.0, DateTime(2024, 4, 10), 'Income Note 6', null, category: 'Ebay'),
+    Income(27.0, DateTime(2024, 4, 20), 'Income Note 7', null, category: 'Job'),
+    Income(27.0, DateTime(2024, 5, 1), 'Income Note 8', null, category: 'Job'),
+    Income(28.0, DateTime(2024, 5, 10), 'Income Note 9', null, category: 'Gift'),
+    Income(28.0, DateTime(2024, 5, 20), 'Income Note 10', null, category: 'Ebay'),
+    Income(29.0, DateTime(2024, 6, 1), 'Income Note 11', null, category: 'Job'),
+    Income(29.0, DateTime(2024, 6, 2), 'Income Note 12', null, category: 'Gift'),
+    Income(29.0, DateTime(2024, 6, 3), 'Income Note 13', null, category: 'Ebay'),
+    Income(29.0, DateTime(2024, 6, 4), 'Income Note 14', null, category: 'Job'),
+    Income(29.0, DateTime(2024, 6, 5), 'Income Note 15', null, category: 'Gift'),
+    Income(29.0, DateTime(2024, 6, 6), 'Income Note 16', null, category: 'Ebay'),
+    Income(29.0, DateTime(2024, 6, 7), 'Income Note 17', null, category: 'Job'),
   ];
 
   List<Expense> testExpense = [
-    Expense(150.0, DateTime(2024, 5, 10), 'Test Expense 1', "", recurring: false),
-    Expense(130.0, DateTime(2024, 5, 12), 'Test Expense 2', "", recurring: false),
-    Expense(110.0, DateTime(2024, 5, 14), 'Test Expense 3', "", recurring: false),
+  Expense(150.0, DateTime(2024, 2, 20), 'Test Expense 1', null, recurring: false, category: 'Food & Dining'),
+  Expense(20.0, DateTime(2024, 2, 1), 'Test Expense 2', null, recurring: true, category: 'Auto & Transport'),
+  Expense(250.0, DateTime(2024, 3, 10), 'Test Expense 3', null, recurring: false, category: 'Leisure'),
+  Expense(25.0, DateTime(2024, 3, 20), 'Test Expense 4', null, recurring: true, category: 'Other'),
+  Expense(260.0, DateTime(2024, 4, 1), 'Test Expense 5', null, recurring: false, category: 'Food & Dining'),
+  Expense(265.0, DateTime(2024, 4, 10), 'Test Expense 6', null, recurring: true, category: 'Auto & Transport'),
+  Expense(27.0, DateTime(2024, 4, 20), 'Test Expense 7', null, recurring: false, category: 'Leisure'),
+  Expense(27.0, DateTime(2024, 5, 1), 'Test Expense 8', null, recurring: true, category: 'Other'),
+  Expense(28.0, DateTime(2024, 5, 10), 'Test Expense 9', null, recurring: false, category: 'Food & Dining'),
+  Expense(28.0, DateTime(2024, 5, 20), 'Test Expense 10', null, recurring: true, category: 'Auto & Transport'),
+  Expense(29.0, DateTime(2024, 6, 1), 'Test Expense 11', null, recurring: false, category: 'Leisure'),
+  Expense(29.0, DateTime(2024, 6, 2), 'Test Expense 12', null, recurring: true, category: 'Other'),
+  Expense(29.0, DateTime(2024, 6, 3), 'Test Expense 13', null, recurring: false, category: 'Food & Dining'),
+  Expense(29.0, DateTime(2024, 6, 4), 'Test Expense 14', null, recurring: true, category: 'Auto & Transport'),
+  Expense(29.0, DateTime(2024, 6, 5), 'Test Expense 15', null, recurring: false, category: 'Leisure'),
+  Expense(29.0, DateTime(2024, 6, 6), 'Test Expense 16', null, recurring: true, category: 'Other'),
+  Expense(29.0, DateTime(2024, 6, 7), 'Test Expense 17', null, recurring: false, category: 'Food & Dining'),
   ];
 
   // Add testIncome into incomeBox
@@ -61,7 +78,7 @@ void main() async {
   // Add testExpense into expenseBox
   for (var expense in testExpense) {
     box2.add(expense);
-  }*/
+  }
 
 }
 
